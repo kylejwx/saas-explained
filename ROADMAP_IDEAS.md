@@ -91,6 +91,12 @@ VitePress can also serve as a transparent case study: explain what it does for t
 
 Add case studies of recognizable software-as-a-service products. Use public engineering posts, documentation, talks, job listings, incident reports, and other reliable sources to reconstruct how each product works without pretending that undisclosed details are known.
 
+### Initial case-study candidate: Type the Word
+
+[Type the Word](https://www.typetheword.com/) is a Bible-typing practice product that lets individuals choose passages and translations, track their progress, and set goals. It also describes Christian-school workflows through a Google Classroom integration, including assignments and student-progress tracking. This could be a useful case study because it combines a focused interactive experience with accounts, user progress, content and translation boundaries, and an education integration.
+
+Investigate its publicly documented architecture only. In particular, distinguish visible product behavior from any technology choices that have not been disclosed.
+
 For each product, discuss:
 
 - What the product does and the kinds of workloads it handles
@@ -104,7 +110,42 @@ For each product, discuss:
 
 Clearly label confirmed facts, informed inferences, and unknown details.
 
-## 5. Connect the additions into learning paths
+## 5. Start with known architectural requirements
+
+Add guidance for cases where the product is known from the outset to need a capability that substantially shapes its architecture. Rather than beginning with a generic starter stack and bolting the requirement on later, this section would help a builder identify the requirement early and choose an approach that supports it.
+
+Initial examples:
+
+- **Data lakes and analytics-heavy products:** explain when a product needs to collect, retain, transform, govern, and query large or diverse data sets. Cover ingestion, object storage, data catalogs, batch and streaming pipelines, warehouses or lakehouses, analytics, access controls, cost management, and data-quality concerns.
+- **Deep AI integration:** explain how an application changes when AI is a core product capability rather than a small add-on. Cover model-provider selection, prompting and orchestration, retrieval-augmented generation, embeddings and vector search, evaluation, guardrails, human review, latency, token and inference costs, privacy, and monitoring model quality over time.
+
+For each requirement, include:
+
+- The product signals that make it a first-class architectural concern
+- The new components and skills it introduces across the site's architectural layers
+- A minimal viable design and the next likely stages of growth
+- A comparison of all-in-one platforms, major-cloud-native options, and specialist services
+- Security, compliance, cost, reliability, and vendor-lock-in tradeoffs
+- Common shortcuts that make sense for a prototype and the point at which they stop being safe or practical
+
+### Future requirements to explore
+
+These are prompts for future guides rather than fully developed recommendations:
+
+- **Extremely low-latency applications:** products whose proper function depends on fast, predictable responses; explore regional and edge deployment, persistent connections, caching, in-memory data, and performance budgets.
+- **Real-time collaboration and presence:** shared documents, whiteboards, multiplayer workflows, or live dashboards; explore synchronization, events, conflict handling, and shared state.
+- **Offline-first applications:** products that must work through unreliable or absent connectivity; explore local data, synchronization, and conflict resolution.
+- **Regulated or highly sensitive data:** healthcare, finance, legal, children's, or other protected information; explore auditability, encryption, access control, retention, and data residency.
+- **Enterprise SaaS:** applications needing single sign-on, user provisioning, organization-level isolation, granular permissions, and customer security controls.
+- **Global scale or regional data residency:** products serving users across regions or subject to location-specific data requirements; explore replication, deployment topology, and compliance.
+- **High-volume event processing:** telemetry, clickstreams, payments, logs, or IoT data; explore streams, queues, event-driven systems, idempotency, and back-pressure.
+- **Hardware or IoT integrations:** connected devices with intermittent connectivity, device identity, secure updates, and time-series data.
+- **Media-heavy products:** video, audio, image processing, livestreaming, or large file uploads; explore object storage, processing pipelines, and content delivery.
+- **Marketplace or payment-heavy products:** systems that handle money movement, refunds, fraud, tax, or ledgers; explore correctness, reconciliation, and payment-provider boundaries.
+- **Search as a core experience:** large catalogs, complex filtering, semantic retrieval, or rapid indexing; explore dedicated search and indexing architectures.
+- **High-reliability or safety-critical products:** systems where downtime or incorrect results are especially costly; explore redundancy, disaster recovery, monitoring, and deliberate failure modes.
+
+## 6. Connect the additions into learning paths
 
 As these sections grow, organize them into a few ways to explore the site:
 
