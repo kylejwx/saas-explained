@@ -7,7 +7,7 @@ I might try to build this with https://vitepress.dev/
 # SaaS Architecture Reference
 **A practical guide for builders who want good bones from day one**
 
-*Version 2.0 — July 2026 | Authored by Kyle Wilcox*
+*Version 1.0 — July 2026 | Authored by Kyle Wilcox*
 
 ---
 
