@@ -3,6 +3,11 @@ A project to teach myself how SaaS works
 
 I might try to build this with https://vitepress.dev/
 
+For repository contributors:
+
+- [Content maintenance procedure](CONTENT_MAINTENANCE.md)
+- [Changes and edition archive](versions.md)
+
 
 # SaaS Architecture Reference
 **A practical guide for builders who want good bones from day one**

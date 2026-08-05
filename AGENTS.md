@@ -19,6 +19,17 @@ Do not use GitHub API file updates merely to bypass a broken local Git workflow.
 
 The GitHub App uses separate authorization from local Git. When the installation is limited to selected repositories, confirm that this repository is included before relying on connector write operations.
 
+## Guide content history
+
+Before changing `SaaS_Architecture_Reference.md`, read and follow `CONTENT_MAINTENANCE.md`.
+
+- Classify the change as routine, material, or a new edition before editing.
+- Treat Version 1.0 as the baseline. Do not add a Version 1 entry to `CHANGELOG.md`; it records only material changes made after the August 4, 2026 baseline.
+- Use Git commits alone for routine corrections and maintenance.
+- Add a concise `CHANGELOG.md` entry when guidance changes cost, security, complexity, architecture, vendor selection, or the reader's recommended next step.
+- Create frozen editions, annotated `guide-v*` tags, and GitHub Releases only for deliberate edition milestones.
+- Never revise a frozen edition or move or delete an existing edition tag.
+
 ## Safety and coordination
 
 - Commit or push only when the user requests it or the active task clearly includes publication.

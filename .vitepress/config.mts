@@ -11,14 +11,16 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: 'Start here', link: '/' },
-      { text: 'Architecture reference', link: '/architecture' }
+      { text: 'Architecture reference', link: '/architecture' },
+      { text: 'Changes & editions', link: '/versions' }
     ],
     sidebar: [
       {
         text: 'SaaS Explained',
         items: [
           { text: 'Start here', link: '/' },
-          { text: 'Architecture reference', link: '/architecture' }
+          { text: 'Architecture reference', link: '/architecture' },
+          { text: 'Changes & editions', link: '/versions' }
         ]
       }
     ],
