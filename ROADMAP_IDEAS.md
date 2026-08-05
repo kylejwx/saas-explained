@@ -145,7 +145,11 @@ These are prompts for future guides rather than fully developed recommendations:
 - **Search as a core experience:** large catalogs, complex filtering, semantic retrieval, or rapid indexing; explore dedicated search and indexing architectures.
 - **High-reliability or safety-critical products:** systems where downtime or incorrect results are especially costly; explore redundancy, disaster recovery, monitoring, and deliberate failure modes.
 
-## 6. Connect the additions into learning paths
+## 6. Package the guidance as an AI-agent skill
+
+Turn the repository's practical SaaS architecture guidance into a reusable skill that AI agents such as Claude and Codex can consume while helping builders plan, evaluate, and implement SaaS products. Explore how to package the guidance with clear instructions, source references, update/versioning practices, and examples that preserve the guide's emphasis on tradeoffs rather than prescribing a one-size-fits-all stack.
+
+## 7. Connect the additions into learning paths
 
 As these sections grow, organize them into a few ways to explore the site:
 
