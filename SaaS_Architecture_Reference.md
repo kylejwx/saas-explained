@@ -229,6 +229,20 @@ Multi-tenancy is a core design concern for most SaaS: **Customer A must never se
 
 > ⚠️ **Multi-tenant data leakage is one of the most catastrophic SaaS failures possible.** Centralize tenant scoping in the data-access layer and add database-enforced policies such as PostgreSQL Row-Level Security where the risk justifies it. RLS is defense in depth, not magic: connect with roles that cannot bypass the policy, set tenant context from trusted server-side identity, cover writes as well as reads, and test cross-tenant denial paths.
 
+#### The Complete Tenant Lifecycle
+
+Tenant architecture is more than adding `tenant_id` to queries. Define the lifecycle states and stable tenant identity early, then automate the capabilities when the product needs them. The [AWS SaaS Lens](https://docs.aws.amazon.com/wellarchitected/latest/saas-lens/definitions.html) treats onboarding, tiers, consumption, and tenant-aware operations as first-class concerns.
+
+- **Provisioning and deprovisioning**: Create, suspend, reactivate, and eventually remove a tenant and its dependent resources without manual database surgery
+- **People and machines**: Handle invitations, role and ownership changes, SSO, SCIM provisioning, API keys, and service accounts; revoke access promptly when membership ends
+- **Fair use and cost attribution**: Apply per-tenant quotas, rate limits, concurrency limits, and feature entitlements; measure usage so one noisy tenant cannot silently degrade everyone else
+- **Tenant-aware operations**: Put tenant identifiers in structured logs, metrics, traces, jobs, billing records, and support tooling without leaking sensitive tenant data
+- **Auditability**: Record security-sensitive and administrative actions in append-only or tamper-evident audit logs with actor, tenant, action, target, and time
+- **Data rights and placement**: Support scoped export, deletion, retention, legal hold, and data-residency rules across primary data, search indexes, analytics, object storage, and caches
+- **Recovery and movement**: Decide whether backups can restore one tenant without overwriting others, and design migrations between pooled and dedicated deployments before promising that capability
+
+> 💡 **For small SaaS**: You do not need enterprise SSO, per-tenant restore, or data-residency automation on day one. You do need an explicit tenant identity, lifecycle states, ownership rules, and a path to delete or export one tenant without affecting another.
+
 ---
 
 ### Pillar 5: Asynchronous Workers & Task Queues
@@ -858,6 +872,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Secrets in a vault or `.env` file **excluded from git** — verify with `git-secrets`
 - [ ] Relational database (PostgreSQL) with migration tooling configured
 - [ ] Multi-tenant data model with centralized object authorization and tested isolation controls
+- [ ] Tenant identity, ownership, lifecycle states, and scoped export/deletion path defined
 - [ ] Authentication via managed service (Clerk, Auth0, Supabase Auth, or framework-native)
 - [ ] HTTPS enabled (automatic on PaaS platforms and Cloudflare)
 - [ ] Object storage for user file uploads (AWS S3 or Cloudflare R2 — never local disk)
@@ -877,6 +892,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Cloudflare in front of your app (CDN + WAF + DDoS)
 - [ ] Privacy policy published and data deletion mechanism available
 - [ ] Feature flags for controlled rollouts
+- [ ] Per-tenant quotas plus tenant-aware logs, jobs, and usage metrics
 
 ### Scale — Before Your First Enterprise Customer
 
@@ -885,6 +901,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Tenant isolation model and cross-tenant denial paths reviewed, documented, and tested
 - [ ] SOC 2 compliance process initiated (if selling B2B)
 - [ ] SAML/SSO support for enterprise identity providers
+- [ ] SCIM, service accounts, immutable audit logs, and tenant offboarding reviewed where customers require them
 - [ ] Disaster recovery plan documented, tested, and practiced
 - [ ] Infrastructure defined as code (Terraform / Pulumi / Bicep)
 - [ ] Blue-green or canary deployment strategy
