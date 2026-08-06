@@ -11,3 +11,4 @@
 - **Edge security:** Makes Cloudflare and third-party WAF/CDN adoption conditional on hosting capabilities, measured performance, and threat needs, and clarifies that free WAF coverage is limited defense in depth.
 - **Compliance posture:** Replaces broad user-location claims with common legal triggers, adds COPPA, distinguishes SOC 2 attestation from law or certification, and clarifies that payment processors reduce rather than remove PCI DSS duties.
 - **Resilience:** Adds explicit timeouts, bounded retries with jitter, circuit breakers, bulkheads, graceful degradation, dependency health, SLOs, capacity tests, and controlled recovery exercises for partial failures.
+- **Data lifecycle:** Adds classification, minimization, retention, deletion across derived stores and backups, portability, key management, residency, subprocessors, privacy requests, and legal holds.

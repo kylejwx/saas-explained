@@ -548,6 +548,19 @@ Understanding these laws, standards, and assurance reports shapes good data hand
 
 > 💡 **For small SaaS**: Map the data and customers you actually have, use low-scope payment integrations, write an accurate privacy notice, collect only what you need, and build export and deletion paths. Reassess with qualified legal or compliance help before entering a regulated market or signing a contract that imposes additional duties.
 
+### Data Lifecycle & Privacy Engineering
+
+Data architecture covers the full lifecycle—collection, use, sharing, retention, and disposal—not only the primary database. Build a data inventory that follows information through object storage, caches, logs, analytics, search indexes, AI providers, support tools, and backups.
+
+- **Classify and minimize**: Label sensitive categories and purposes, collect only what the product needs, and keep secrets, payment data, health data, student data, and ordinary product telemetry under controls appropriate to their risk.
+- **Retention and deletion**: Define a retention owner and period for each class. Delete or anonymize expired data from active systems and derived stores; document when immutable backups expire rather than claiming immediate deletion from every backup. If a backup is restored, reapply deletion records before returning the system to service. [Storage limitation](https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/storage-limitation/) is both a privacy principle and a way to reduce breach impact.
+- **Export and portability**: Produce a complete, tenant-scoped, machine-readable export without leaking internal secrets or another tenant's records. Test large exports asynchronously and audit who requested and downloaded them.
+- **Encryption and keys**: Encrypt in transit and at rest, restrict key-management permissions, rotate keys and credentials, and decide whether regulated or high-value tenants require separate keys.
+- **Residency and subprocessors**: Know the regions where each provider stores, replicates, backs up, and supports the data. Maintain a subprocessor inventory and review provider retention, training, deletion, and breach terms before sending customer data.
+- **Privacy requests and legal holds**: Authenticate requesters, track deadlines and approvals, search every relevant system, record evidence of completion, and suspend normal deletion when a valid legal hold applies.
+
+> 💡 **For small SaaS**: Start with a lightweight data inventory, sensible default retention periods, tenant export/deletion, a subprocessor list, and a tested request checklist. Add regional deployments, customer-managed keys, and automated legal-hold workflows only when risk or contracts require them.
+
 ### Resilience & Partial Failure
 
 Most production failures are partial: the database is slow, an identity provider times out, a payment API rate-limits you, or one tenant consumes a shared pool. Design each remote dependency as fallible.
@@ -932,6 +945,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Basic error tracking (Sentry free tier)
 - [ ] Uptime monitor configured
 - [ ] Automated database backups enabled
+- [ ] Data inventory, default retention periods, tenant export/deletion, and subprocessor list established
 
 ### Growth — Before Your 100th User
 
@@ -947,6 +961,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Structured logging (not just print statements)
 - [ ] CDN/WAF or hosting edge controls evaluated against measured performance and threat needs
 - [ ] Privacy policy published and data deletion mechanism available
+- [ ] Privacy-request workflow covers active data, derived stores, and deletion reapplication after a backup restore
 - [ ] Feature flags for controlled rollouts
 - [ ] Per-tenant quotas plus tenant-aware logs, jobs, and usage metrics
 
