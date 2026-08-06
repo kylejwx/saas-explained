@@ -302,9 +302,19 @@ For more complex systems, you can move beyond simple job queues to event-driven 
 
 Unless you're building a free tool, billing infrastructure is load-bearing. Get it wrong and you lose money or anger customers.
 
-- **Stripe** — the dominant SaaS billing platform. Handles subscriptions, plan tiers, usage-based metering, free trials, invoices, global tax compliance, and failed payment recovery. Deeply webhook-driven.
-- **Paddle** — includes Merchant of Record service (Paddle handles global tax compliance and remittance — significant for international SaaS)
-- **LemonSqueezy** — popular with indie SaaS builders; similar MoR model to Paddle
+Do not treat payment processing, subscription billing, tax calculation, tax filing, and Merchant of Record (MoR) service as one feature:
+
+| Capability | What It Does | Who Remains Responsible |
+|---|---|---|
+| **Payment processing** | Collects and settles payments | Your business remains the seller/MoR unless the contract explicitly says otherwise |
+| **Subscription billing** | Manages plans, invoices, metering, trials, and dunning | Your business still owns product, tax, refund, and support obligations not delegated by contract |
+| **Tax calculation** | Determines applicable tax and adds it to transactions | Your business identifies obligations and registrations; calculation alone does not register, file, or remit everywhere |
+| **Registration and filing services** | Helps register, prepare returns, file, and remit in selected jurisdictions | Scope depends on the purchased service and supported jurisdictions |
+| **Merchant of Record** | The provider becomes the legal seller for covered transactions and assumes contracted payment and indirect-tax duties | Your business retains responsibilities outside the MoR agreement, product eligibility, and supported countries |
+
+- **Stripe Payments + Billing + Tax**: Modular processing, subscription, and tax tools. With ordinary Stripe products, your business is the MoR; [Stripe Tax requires you to identify and register where you have obligations](https://docs.stripe.com/tax/registering), although separate registration and filing help is available.
+- **Stripe Managed Payments**: Stripe acts as MoR for [eligible digital products, countries, and integrations](https://docs.stripe.com/payments/managed-payments). Do not assume an ordinary Stripe Billing integration has the same legal scope.
+- **Paddle / Lemon Squeezy**: Offer MoR arrangements aimed at software and digital products. Compare eligibility, country and product exclusions, fees, payout timing, refunds, chargebacks, customer support, and migration constraints—not just tax calculation.
 
 **Critical billing features to implement:**
 
@@ -318,6 +328,8 @@ Unless you're building a free tool, billing infrastructure is load-bearing. Get 
 | Usage metering | Charge based on seats, API calls, storage, etc. |
 
 > 💡 **Use Stripe's Customer Portal from day one.** Don't build subscription management UI yourself until you have a compelling reason to.
+
+> ⚠️ **Tax and MoR scope is contractual and jurisdiction-specific.** Confirm the current provider agreement and obtain qualified tax or legal advice before promising global compliance.
 
 #### Observability
 
