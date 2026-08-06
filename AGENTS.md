@@ -6,10 +6,16 @@ Use local Git as the primary workflow for source changes in this repository. Use
 
 1. Before editing, inspect the current branch, worktree status, remote tracking state, and any existing uncommitted changes.
 2. Fetch the latest remote state and update from `origin/main` before starting new work when it is safe to do so. Never discard, reset, or overwrite unrelated local changes.
-3. For routine work on this small project, work directly on `main` when the user wants the completed changes published there. Use a dedicated branch or Codex worktree only for concurrent, risky, or explicitly review-based work. Never mix unrelated tasks in one dirty worktree.
+3. For routine work on this small project, work directly on `main`. Treat a request to make or implement a change as authorization to complete the normal publication workflow: commit focused changes, push to `origin/main`, and verify the production deployment. Do not pause to ask separately for publication.
 4. Make and review changes locally. For site or documentation changes, run `npm run docs:build` and `git diff --check` before publishing.
-5. When the user asks to publish, create focused local commits, push them with local Git, and verify the resulting remote branch or `main` state.
+5. Create focused local commits, push them with local Git, and verify the resulting remote branch or `main` state as part of completing each requested change.
 6. Treat publication as complete only when the requested changes are visible on the intended remote branch, usually `main`.
+
+## Default delivery authorization
+
+Unless the user explicitly asks to review, check, preview, hold, or otherwise approve a change first, proceed from implementation through commit, push, and live deployment without requesting a separate publication confirmation. Report the result once the live deployment has been verified.
+
+This default does not override safety boundaries: stop and report conflicts, overlapping changes, authentication failures, branch divergence, or other conditions that require a destructive or materially scope-changing choice.
 
 ## GitHub App responsibilities
 
@@ -34,7 +40,7 @@ Before changing `SaaS_Architecture_Reference.md`, read and follow `CONTENT_MAINT
 
 ## Safety and coordination
 
-- Commit or push only when the user requests it or the active task clearly includes publication.
+- Treat requested implementation as authorization to commit, push, and publish under the default delivery policy above, unless the user explicitly asks to review or hold first.
 - Preserve existing user and agent changes, including changes in other worktrees.
 - Stop and report conflicts, overlapping edits, authentication failures, or branch divergence before choosing a destructive or history-rewriting resolution.
 - Keep local checkout state and GitHub state aligned throughout PR, review, and merge work.
