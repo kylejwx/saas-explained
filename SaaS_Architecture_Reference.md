@@ -117,7 +117,7 @@ Once your API is used by others (customers, integrations, mobile apps), you can'
 
 > 💡 **For small SaaS**: Establish a versioning and compatibility policy before an API has independently deployed consumers such as customers, integrations, mobile apps, or desktop clients. A purely internal API that ships in lockstep with its only web client can usually evolve without public versions; premature versioning adds contracts and migration paths you may never need.
 
-#### Webhooks
+#### Webhooks & Event Delivery
 
 A webhook is how your SaaS *pushes* notifications to other systems when something happens — rather than requiring them to constantly poll for updates. Stripe sends your app a webhook when a payment succeeds. GitHub sends your CI pipeline a webhook when code is pushed.
 
@@ -275,6 +275,18 @@ If generating a report takes 10 seconds, you don't want the user's browser reque
 | **AWS SQS / Azure Service Bus** | Any | Fully managed; no infrastructure to run |
 
 > ⚠️ **Design for failure.** Background jobs fail — network timeouts, API rate limits, transient errors are all normal. Build retry logic with exponential backoff, and monitor failed jobs. A job that silently fails is often worse than one that crashes visibly.
+
+#### Idempotency & Delivery Semantics
+
+Retries can deliver the same logical work more than once. [Stripe warns that webhook events can be duplicated](https://docs.stripe.com/webhooks#handle-duplicate-events), and [standard Amazon SQS queues use at-least-once delivery](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/standard-queues-at-least-once-delivery.html). Treat duplicate delivery as normal even when a provider offers stronger guarantees inside part of the system; "exactly once" rarely survives an end-to-end workflow that spans a queue, database, and external API.
+
+- **Idempotency keys**: Give each logical command—such as creating a subscription, refund, export, or invitation—a stable key. Persist the outcome or enforce a unique business constraint so a retry returns the original result instead of repeating the side effect.
+- **Webhook authenticity and deduplication**: Verify the provider's signature against the unmodified request body, reject stale replays where supported, and record processed event IDs. Signature verification proves origin and integrity; it does not prevent legitimate duplicate delivery.
+- **Transactional outbox**: When a database change must publish a message, write the business change and an outbox record in the same transaction. A relay publishes the outbox later, and consumers remain idempotent because the relay may publish twice.
+- **Bounded retries and dead-letter queues**: Retry only transient failures with backoff and jitter. Move repeatedly failing or malformed "poison" messages to a dead-letter queue, alert on them, preserve diagnostic context, and document safe replay or discard procedures.
+- **Ordering**: Do not assume global message order. Identify operations that require per-tenant or per-object ordering and use sequence numbers, conditional writes, or a queue feature that explicitly provides that scope.
+
+> 💡 **For small SaaS**: Start with idempotent handlers, a processed-event table or unique constraint, signature verification, bounded retries, and visible failed-job handling. Add a transactional outbox when a database commit and message publication must not drift apart.
 
 #### Event-Driven Architecture
 
@@ -886,6 +898,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Integration tests on authentication, billing, and core CRUD flows
 - [ ] Background job worker configured
 - [ ] Stripe/Paddle billing with webhook handling
+- [ ] Idempotency, signature verification, event deduplication, bounded retries, and failed-message replay tested
 - [ ] API compatibility/versioning policy established before supporting independently deployed clients or integrations
 - [ ] Rate limiting on all API endpoints
 - [ ] Structured logging (not just print statements)
