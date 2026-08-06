@@ -532,6 +532,21 @@ Your app is only as secure as its dependencies. A compromised npm or PyPI packag
 - **Minimize dependencies** — every third-party package is a potential attack surface
 - **Enable Dependabot** on GitHub — automated pull requests for security patches
 
+### Secure Development & Privileged Operations
+
+Security controls must cover how software is designed and how trusted staff operate it. The [NIST Secure Software Development Framework](https://csrc.nist.gov/projects/ssdf) provides an outcome-based reference that teams can scale to their risk.
+
+- **Threat modeling**: Before building a sensitive feature, identify assets, trust boundaries, attackers, abuse cases, and the controls that prevent or detect them. Revisit the model when data flows or third-party integrations change.
+- **Automated scanning**: Run code analysis, dependency and license checks, and secret scanning in CI. Triage findings by exploitability and exposure; a noisy scanner that nobody owns is not a control.
+- **Least-privilege cloud IAM**: Give people and workloads separate identities, short-lived credentials where possible, and only the resource actions they need. Avoid shared production administrator keys.
+- **Environment separation**: Use separate credentials and data stores for development, staging, and production. Do not copy production personal data into lower environments without an approved, minimized, and protected process.
+- **Administrative audit trails**: Log changes to users, roles, billing, exports, secrets, tenant settings, and security controls with the operator, reason, target, tenant, and time. Protect the audit trail from ordinary editing.
+- **Support impersonation**: Prefer diagnostic views and explicit delegated access. If impersonation is necessary, require strong authentication, authorization, a visible banner, a reason and time limit, immutable logging, and extra approval for sensitive actions.
+- **Emergency access**: Maintain a tightly controlled "break-glass" path for outages, alert on every use, prohibit routine use, and review and rotate access immediately afterward.
+- **Incident and integration review**: Define containment, evidence preservation, communication, and breach-notification ownership before an incident. Review third-party scopes, webhook security, data use, retention, and offboarding before connecting them to production.
+
+> 💡 **For small SaaS**: Start with a one-page threat model for the highest-risk flows, CI secret/dependency scanning, separate production credentials, least-privilege access, and audited admin actions. Add formal approvals and dedicated security tooling as team size and exposure grow.
+
 ### Compliance Posture
 
 Understanding these laws, standards, and assurance reports shapes good data handling habits, but applicability depends on the organization, data, users, jurisdictions, contracts, and current thresholds. The triggers below are common examples, not legal conclusions.
@@ -935,6 +950,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 
 - [ ] Source code in version control (GitHub / GitLab)
 - [ ] Secrets in a vault or `.env` file **excluded from git** — verify with `git-secrets`
+- [ ] Production credentials separated, least-privilege access assigned, and CI secret/dependency scanning enabled
 - [ ] Relational database (PostgreSQL) with migration tooling configured
 - [ ] Multi-tenant data model with centralized object authorization and tested isolation controls
 - [ ] Tenant identity, ownership, lifecycle states, and scoped export/deletion path defined
@@ -963,6 +979,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Privacy policy published and data deletion mechanism available
 - [ ] Privacy-request workflow covers active data, derived stores, and deletion reapplication after a backup restore
 - [ ] Feature flags for controlled rollouts
+- [ ] Administrative actions and support access audited; incident response owners and contacts documented
 - [ ] Per-tenant quotas plus tenant-aware logs, jobs, and usage metrics
 
 ### Scale — Before Your First Enterprise Customer
@@ -978,6 +995,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Infrastructure defined as code (Terraform / Pulumi / Bicep)
 - [ ] Blue-green or canary deployment strategy
 - [ ] On-call rotation and incident response playbook
+- [ ] Privileged support, break-glass access, and third-party integration reviews tested and independently approved where risk requires it
 
 ---
 

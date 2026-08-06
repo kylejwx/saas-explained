@@ -12,3 +12,4 @@
 - **Compliance posture:** Replaces broad user-location claims with common legal triggers, adds COPPA, distinguishes SOC 2 attestation from law or certification, and clarifies that payment processors reduce rather than remove PCI DSS duties.
 - **Resilience:** Adds explicit timeouts, bounded retries with jitter, circuit breakers, bulkheads, graceful degradation, dependency health, SLOs, capacity tests, and controlled recovery exercises for partial failures.
 - **Data lifecycle:** Adds classification, minimization, retention, deletion across derived stores and backups, portability, key management, residency, subprocessors, privacy requests, and legal holds.
+- **Secure development and operations:** Adds threat modeling, code and secret scanning, least-privilege IAM, environment separation, privileged-action audit trails, controlled support access, emergency access, incident response, and integration review.
