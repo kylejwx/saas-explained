@@ -8,3 +8,4 @@
 - **Billing and tax:** Separates payment processing, subscriptions, tax calculation, registration and filing, and Merchant of Record service so builders can compare the actual responsibilities delegated by each product.
 - **Email and notifications:** Adds queued, idempotent delivery; domain authentication; bounce and complaint processing; suppression; preferences; secure action links; and provider-selection criteria.
 - **Database networking:** Prefers private connectivity where available while defining compensating controls for managed databases that expose authenticated public TLS endpoints.
+- **Edge security:** Makes Cloudflare and third-party WAF/CDN adoption conditional on hosting capabilities, measured performance, and threat needs, and clarifies that free WAF coverage is limited defense in depth.

@@ -402,9 +402,9 @@ Self-managed container clusters on major cloud providers. Maximum control and co
 #### Networking in SaaS
 
 **Content Delivery Networks (CDNs)**
-Caches your static assets (images, JS, CSS) on servers around the world so users load them from a nearby server rather than your single origin. **Cloudflare** is the dominant player and bundles DNS, DDoS protection, and WAF in one service.
+Caches your static assets (images, JS, CSS) on servers around the world so users load them from a nearby server rather than your single origin. Cloudflare is a popular option that can bundle DNS, CDN, DDoS protection, and WAF; many hosting platforms and cloud providers already include an edge network or integrate with one.
 
-> 💡 **Put Cloudflare in front of your app from day one.** The free tier provides CDN, DDoS protection, and basic security rules. It's one of the highest-value free services in the SaaS infrastructure world.
+> 💡 **For small SaaS**: Use the edge and DDoS controls your hosting platform already provides unless performance measurements, custom DNS/edge rules, or your threat model justify another proxy. Cloudflare's free tier can be valuable, but it is an additional DNS, TLS, caching, and availability dependency—not a universal day-one requirement.
 
 **Load Balancers**
 Distribute incoming traffic across multiple server instances. Required when you run more than one copy of your app. Managed automatically by PaaS platforms; included in cloud provider networking.
@@ -413,13 +413,13 @@ Distribute incoming traffic across multiple server instances. Required when you 
 A private network inside the cloud where your database, cache, and internal services communicate without traversing the public internet. Prefer private connectivity for production data stores when the provider and deployment model support it. Some managed and serverless databases expose only public TLS endpoints; in that case, require certificate verification and strong rotating credentials, restrict source networks or use provider access controls where available, keep administrative interfaces separate, and monitor failed access. A public endpoint is not permission to make the database anonymously or broadly reachable.
 
 **Web Application Firewalls (WAF)**
-Filters malicious traffic — SQL injection, XSS attempts, bot attacks — before it reaches your app. Cloudflare WAF works excellently at the free tier for small SaaS.
+Filters known malicious traffic patterns before they reach your app. A WAF is defense in depth, not a replacement for authorization, input validation, parameterized queries, patching, or rate limits. Cloudflare's free plan includes [a limited managed ruleset](https://developers.cloudflare.com/waf/managed-rules/); broader rules and controls depend on the plan.
 
 #### Scaling Stages
 
 | Stage | Typical User Count | Recommended Setup | Est. Monthly Cost |
 |---|---|---|---|
-| **MVP** | 5–500 users | Vercel/Render/Railway + Managed Postgres + Cloudflare | $0–$50 |
+| **MVP** | 5–500 users | Vercel/Render/Railway + Managed Postgres + hosting edge controls | $0–$50 |
 | **Growth** | 500–50,000 users | PaaS or Docker + VPS + Redis + CDN | $50–$500 |
 | **Scale** | 50,000–1M+ users | Kubernetes or ECS + Multi-region DB + Full observability stack | $1,000–$50,000+ |
 
@@ -929,7 +929,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] API compatibility/versioning policy established before supporting independently deployed clients or integrations
 - [ ] Rate limiting on all API endpoints
 - [ ] Structured logging (not just print statements)
-- [ ] Cloudflare in front of your app (CDN + WAF + DDoS)
+- [ ] CDN/WAF or hosting edge controls evaluated against measured performance and threat needs
 - [ ] Privacy policy published and data deletion mechanism available
 - [ ] Feature flags for controlled rollouts
 - [ ] Per-tenant quotas plus tenant-aware logs, jobs, and usage metrics
