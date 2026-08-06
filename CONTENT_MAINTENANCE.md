@@ -35,6 +35,30 @@ Classify proposed work before editing the guide.
 
 When uncertain, treat a change as material if it could cause a reader to make a different technical or purchasing decision.
 
+## Commit scope and messages
+
+Git history must make each meaningful recommendation change easy to identify. Make a separate, focused commit for every material change to `SaaS_Architecture_Reference.md`. Treat each changed recommendation or reader-impacting decision as a separate material change, even when several changes are ready in the same editing session.
+
+The material-change commit includes the guide edit, its corresponding `CHANGELOG.md` entry, and any directly dependent summary update, such as a matching statement in `README.md`. Do not combine independent recommendation changes in one commit.
+
+Keep routine maintenance separate from a material change whenever practical. Routine-only commits may group related or unrelated typos, formatting, link repairs, and wording clarifications that do not change the advice.
+
+Every material guide-change commit must include:
+
+- a concise subject that names the affected area and the changed recommendation; and
+- a body, separated from the subject by a blank line, that explains why the guidance changed and the consequence for the reader's decision.
+
+Use `guide: <area> — <changed recommendation>` as the preferred subject pattern. For example:
+
+```text
+guide: database — recommend managed Postgres for early production apps
+
+Clarifies that a managed service reduces operational complexity and backup risk
+for small teams. Updates the database recommendation and its changelog entry.
+```
+
+Routine-only commits need a descriptive subject; their body is optional.
+
 ## Record a material change
 
 Add material changes to `CHANGELOG.md` under a date heading. Keep entries concise and explain the consequence, not merely the edited words:
@@ -53,6 +77,8 @@ Usually the changelog is enough. Add a short note inside the guide only when his
 
 Create an edition only for a deliberate milestone, not for every material update.
 
+A new edition does not replace the individual material guide-change commits that led to it. Make those changes first, then use a separate edition commit to freeze the completed guide and update the edition metadata.
+
 1. Confirm the new version number and edition date.
 2. Update the version label in `SaaS_Architecture_Reference.md` and any matching label in `README.md`.
 3. Copy the completed guide to `editions/v<version>.md`. Never revise a frozen edition afterward.
@@ -69,7 +95,7 @@ The version number is an editorial edition number. A larger restructuring or cha
 2. Fetch and safely incorporate the latest `origin/main` before editing.
 3. Classify the planned change as routine, material, or a new edition.
 4. Edit `SaaS_Architecture_Reference.md`, keeping duplicated summary or version text in `README.md` consistent when applicable.
-5. Update `CHANGELOG.md` only for a material post-baseline change.
+5. Update `CHANGELOG.md` only for a material post-baseline change, in that change's focused commit.
 6. For a new edition, complete the edition steps above before publishing.
 7. Review the diff and run:
 
@@ -78,5 +104,5 @@ The version number is an editorial edition number. A larger restructuring or cha
    git diff --check
    ```
 
-8. Create a focused commit and publish it using the workflow in `AGENTS.md`.
+8. Create commits with the scope and message requirements above, then publish them using the workflow in `AGENTS.md`.
 9. Verify the intended commit on GitHub `main` and confirm the GitHub Pages deployment succeeds.

@@ -27,6 +27,8 @@ Before changing `SaaS_Architecture_Reference.md`, read and follow `CONTENT_MAINT
 - Treat Version 1.0 as the baseline. Do not add a Version 1 entry to `CHANGELOG.md`; it records only material changes made after the August 4, 2026 baseline.
 - Use Git commits alone for routine corrections and maintenance.
 - Add a concise `CHANGELOG.md` entry when guidance changes cost, security, complexity, architecture, vendor selection, or the reader's recommended next step.
+- Make every material change to `SaaS_Architecture_Reference.md` its own focused commit; include its changelog entry and directly dependent summary updates in that commit, but do not combine independent recommendation changes.
+- Material guide-change commits require a subject naming the area and changed recommendation, plus a blank-line-separated body explaining the reason and reader-facing consequence. Routine-only commits may group non-substantive cleanup and need only a descriptive subject.
 - Create frozen editions, annotated `guide-v*` tags, and GitHub Releases only for deliberate edition milestones.
 - Never revise a frozen edition or move or delete an existing edition tag.
 
