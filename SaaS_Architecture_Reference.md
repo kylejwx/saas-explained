@@ -296,7 +296,7 @@ For more complex systems, you can move beyond simple job queues to event-driven 
 
 ---
 
-### Pillar 6: SaaS Operational Engine (Billing & Observability)
+### Pillar 6: SaaS Operational Engine (Billing, Notifications & Observability)
 
 #### Subscription & Billing
 
@@ -330,6 +330,19 @@ Do not treat payment processing, subscription billing, tax calculation, tax fili
 > 💡 **Use Stripe's Customer Portal from day one.** Don't build subscription management UI yourself until you have a compelling reason to.
 
 > ⚠️ **Tax and MoR scope is contractual and jurisdiction-specific.** Confirm the current provider agreement and obtain qualified tax or legal advice before promising global compliance.
+
+#### Transactional Email & Notifications
+
+Password resets, verification links, invitations, invoices, security alerts, and service notices are part of the product's reliability and security boundary.
+
+- **Use a delivery provider**: Postmark, Resend, Amazon SES, SendGrid, and similar services handle SMTP reputation, delivery events, and scaling better than an application server. Compare data residency, retention, support, templates, webhooks, and dedicated-IP requirements.
+- **Queue sends safely**: Create notification jobs after the related transaction commits. Give each logical notification an idempotency key so job retries do not send the same receipt, invitation, or alert repeatedly.
+- **Authenticate the domain**: Configure SPF, DKIM, and DMARC, use TLS, and align the visible sender with authenticated domains. These are practical deliverability requirements; see [Gmail's current sender guidelines](https://support.google.com/mail/answer/81126).
+- **Process delivery events**: Record delivery, bounce, complaint, and provider-rejection events. Stop sending to hard bounces and complaints through a suppression list; [Amazon SES documents why repeated sends can damage sender reputation](https://docs.aws.amazon.com/ses/latest/dg/sending-email-suppression-list.html).
+- **Separate message classes**: Keep transactional and marketing consent, preferences, templates, and sending identities distinct. Never let a marketing opt-out suppress a required security or account message, and never label promotional email as transactional to bypass consent.
+- **Secure action links**: Use short-lived, single-purpose tokens; avoid putting secrets or sensitive personal data in subjects, bodies, or URLs; and make repeated clicks safe.
+
+> 💡 **For small SaaS**: One provider, a queued sender, SPF/DKIM/DMARC, provider webhooks, and a suppression table are enough to start. Add channel preferences and SMS or push delivery only when the product requires them.
 
 #### Observability
 
@@ -899,6 +912,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Tenant identity, ownership, lifecycle states, and scoped export/deletion path defined
 - [ ] Authentication via managed service (Clerk, Auth0, Supabase Auth, or framework-native)
 - [ ] HTTPS enabled (automatic on PaaS platforms and Cloudflare)
+- [ ] Transactional email domain authenticated and password-reset/verification delivery tested
 - [ ] Object storage for user file uploads (AWS S3 or Cloudflare R2 — never local disk)
 - [ ] Basic error tracking (Sentry free tier)
 - [ ] Uptime monitor configured
@@ -909,6 +923,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] CI/CD pipeline (GitHub Actions minimum — test on every push, deploy on merge to main)
 - [ ] Integration tests on authentication, billing, and core CRUD flows
 - [ ] Background job worker configured
+- [ ] Bounce, complaint, suppression, and duplicate-notification handling tested
 - [ ] Stripe/Paddle billing with webhook handling
 - [ ] Idempotency, signature verification, event deduplication, bounded retries, and failed-message replay tested
 - [ ] API compatibility/versioning policy established before supporting independently deployed clients or integrations
