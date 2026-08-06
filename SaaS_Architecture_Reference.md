@@ -358,7 +358,7 @@ You cannot fix what you cannot see. Observability is how you understand what's h
 
 **Additional observability tools:**
 
-- **Error Tracking**: Sentry — catches and groups application errors with stack traces and affected users. Free tier is excellent.
+- **Error Tracking**: Sentry — catches and groups application errors with stack traces and affected users; verify current quotas, retention, privacy controls, and pricing
 - **Uptime Monitoring**: Better Uptime, Checkly — alerts you before your users tell you the app is down
 - **User Analytics**: PostHog (open-source, self-hostable), Plausible Analytics — understand how users actually use your product, without Google's privacy concerns
 - **Real User Monitoring (RUM)**: Track page load times and frontend performance from real browsers
@@ -373,7 +373,7 @@ You cannot fix what you cannot see. Observability is how you understand what's h
 
 **Option A — Serverless** *(AWS Lambda, Azure Functions, Vercel, Netlify)*
 
-Code executes on-demand without managing servers. Scales to zero — you pay nothing when no one is using your app.
+Code executes on-demand without managing servers. Compute may scale to zero, but databases, storage, network traffic, build minutes, logging, minimum instances, and plan fees can still incur cost while the app is idle.
 
 - ✅ Zero server management, cheap at low traffic, theoretically infinite scale
 - ⚠️ Cold start latency, limited execution time per call, can get expensive at high sustained traffic
@@ -387,9 +387,9 @@ Fully managed containerized server environments. Push code, the platform handles
 
 **Option C — VPS / Self-Managed** *(Hetzner, DigitalOcean, Linode + Kamal/Docker)*
 
-A dedicated virtual machine you manage yourself. Rails 8's Kamal deployment tool has made this extremely practical — a $40/month Hetzner server can handle a significant SaaS at early/mid scale.
+A dedicated virtual machine you manage yourself. Rails 8's Kamal deployment tool has made this practical for teams willing to own operating-system patching, hardening, capacity, monitoring, and recovery. Size and benchmark the server for the workload rather than treating a monthly price as a performance guarantee.
 
-- ✅ Cheap, full control, predictable pricing
+- ✅ Full control and often predictable infrastructure pricing
 - ⚠️ You manage OS updates, security patches, and backups
 
 **Option D — Container Orchestration** *(AWS ECS/EKS, Azure AKS — see Part IV for what this is)*
@@ -404,7 +404,7 @@ Managed or self-managed container orchestration on major cloud providers. It can
 **Content Delivery Networks (CDNs)**
 Caches your static assets (images, JS, CSS) on servers around the world so users load them from a nearby server rather than your single origin. Cloudflare is a popular option that can bundle DNS, CDN, DDoS protection, and WAF; many hosting platforms and cloud providers already include an edge network or integrate with one.
 
-> 💡 **For small SaaS**: Use the edge and DDoS controls your hosting platform already provides unless performance measurements, custom DNS/edge rules, or your threat model justify another proxy. Cloudflare's free tier can be valuable, but it is an additional DNS, TLS, caching, and availability dependency—not a universal day-one requirement.
+> 💡 **For small SaaS**: Use the edge and DDoS controls your hosting platform already provides unless performance measurements, custom DNS/edge rules, or your threat model justify another proxy. Cloudflare can be valuable, but it is an additional DNS, TLS, caching, and availability dependency—not a universal day-one requirement. Check current plan limits and pricing before choosing it.
 
 **Load Balancers**
 Distribute incoming traffic across multiple server instances. Required when you run more than one copy of your app. Managed automatically by PaaS platforms; included in cloud provider networking.
@@ -442,7 +442,7 @@ This is the pillar most solo developers and small teams skip — and it's what s
 **Continuous Delivery (CD)**: Automatically deploys passing code to staging or production without manual steps.
 
 **Tools:**
-- **GitHub Actions** — free for public repos, generous free tier for private, native GitHub integration. The default choice.
+- **GitHub Actions** — native GitHub integration and a common starting point; hosted-runner quotas, included usage, and pricing vary by repository and plan
 - **GitLab CI/CD** — excellent if you're on GitLab
 - **Railway, Render, Fly.io** — have built-in CD on every git push
 
@@ -510,7 +510,7 @@ A "secret" is any sensitive value your app needs: database passwords, API keys, 
 | Secrets vault | 🟢 Modern best practice | Encrypted, access-controlled, auditable |
 
 **Recommended tools:**
-- **Doppler** — syncs secrets to your environment from a central vault. Excellent DX, generous free tier. The best starting point.
+- **Doppler** — managed secret synchronization with a developer-focused workflow; compare current plan limits, access controls, audit features, and export path
 - **HashiCorp Vault** — self-hosted, industry standard for enterprises
 - **Azure Key Vault / AWS Secrets Manager** — cloud-native options if you're committed to one provider
 - **1Password Secrets Automation** — if your team already uses 1Password
@@ -694,7 +694,7 @@ Rails 8 ships with everything a solo developer needs to run a full production Sa
 - **Solid Queue** — background jobs backed by your existing database (no Redis or Sidekiq server needed)
 - **Solid Cache** — HTTP caching in your database (no Redis needed)
 - **Solid Cable** — WebSocket real-time features without a separate service
-- **Kamal 2** — deploys your app to a $40/month VPS with a single command (no Heroku, no AWS complexity)
+- **Kamal 2** — deploys your app to your own servers with a streamlined container workflow (without requiring a PaaS or Kubernetes)
 - **Built-in Auth Generator** — complete session-based authentication scaffolding
 
 The result: one developer can deploy a fully featured production SaaS to a cheap server with no PaaS, no Redis, no Kubernetes, no build pipeline. This is DHH's direct counter-argument to "the cloud is too complicated." Shopify — which started on Rails in 2005 — handled 1 million requests per second in 2023. The scale argument is settled.
@@ -968,7 +968,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] HTTPS enabled (automatic on PaaS platforms and Cloudflare)
 - [ ] Transactional email domain authenticated and password-reset/verification delivery tested
 - [ ] Object storage for user file uploads (AWS S3 or Cloudflare R2 — never local disk)
-- [ ] Basic error tracking (Sentry free tier)
+- [ ] Basic error tracking configured (for example, Sentry)
 - [ ] Uptime monitor configured
 - [ ] Automated database backups enabled
 - [ ] Data inventory, default retention periods, tenant export/deletion, and subprocessor list established
