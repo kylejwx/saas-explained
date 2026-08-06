@@ -534,18 +534,19 @@ Your app is only as secure as its dependencies. A compromised npm or PyPI packag
 
 ### Compliance Posture
 
-Understanding these standards shapes good data handling habits, even if you're not legally required to comply today.
+Understanding these laws, standards, and assurance reports shapes good data handling habits, but applicability depends on the organization, data, users, jurisdictions, contracts, and current thresholds. The triggers below are common examples, not legal conclusions.
 
-| Standard | What It Covers | Who Needs It |
+| Law / Standard / Report | What It Covers | Common Applicability Triggers |
 |---|---|---|
-| **GDPR** | EU data privacy — consent, right to deletion, portability | Any app with EU users |
-| **CCPA** | California consumer privacy rights | Apps with California users |
-| **HIPAA** | US healthcare data (PHI) | Health-related SaaS |
-| **FERPA** | US student education records | Ed-tech and school tools |
-| **SOC 2 Type II** | Security, availability, confidentiality practices | B2B SaaS selling to enterprises |
-| **PCI DSS** | Payment card data handling | Only if you store card numbers directly (not if using Stripe) |
+| **[GDPR](https://commission.europa.eu/law/law-topic/data-protection/information-business-and-organisations/application-gdpr/who-does-data-protection-law-apply_en)** | EU personal-data rights and controller/processor duties | Processing tied to an EU establishment, or a non-EU organization offering goods/services to or monitoring people in the EU—not a traveler merely accessing an otherwise non-EU-targeted service |
+| **[CCPA / CPRA](https://oag.ca.gov/privacy/ccpa)** | California consumer privacy rights | A for-profit business doing business in California that meets a statutory revenue, data-volume, or personal-data revenue threshold; obligations can also flow to service providers and contractors |
+| **[HIPAA](https://www.hhs.gov/hipaa/for-professionals/covered-entities/index.html)** | US protected health information (PHI) | A covered health plan, clearinghouse, or qualifying provider, and business associates handling PHI on their behalf—not every health or wellness app |
+| **[FERPA](https://studentprivacy.ed.gov/faq/which-educational-agencies-or-institutions-does-ferpa-apply)** | US education records | Education agencies or institutions receiving US Department of Education funds; vendor duties depend on the school's disclosure basis, contract, control, and handling of education records |
+| **[COPPA](https://www.ftc.gov/news-events/news/press-releases/2026/02/ftc-issues-coppa-policy-statement-incentivize-use-age-verification-technologies-protect-children)** | US online privacy for children under 13 | Commercial sites or online services directed to children under 13, or operators with actual knowledge that they collect personal information from a child under 13 |
+| **[SOC 2 Type II](https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services)** | CPA examination and report on controls relevant to selected trust services criteria over a period | Usually a customer, procurement, or contract-driven assurance request; it is an attestation report, not a law or universal certification |
+| **[PCI DSS](https://docs.stripe.com/security/guide)** | Payment-card account data and payment security | Entities that store, process, or transmit cardholder data and businesses accepting card payments. A hosted Stripe integration can greatly reduce scope and simplify attestation, but does not erase the merchant's responsibilities |
 
-> 💡 **For small SaaS**: Write a privacy policy, collect only the data you need, provide a data deletion mechanism, and encrypt data at rest. These habits cost nothing now and prevent serious legal and reputational problems later.
+> 💡 **For small SaaS**: Map the data and customers you actually have, use low-scope payment integrations, write an accurate privacy notice, collect only what you need, and build export and deletion paths. Reassess with qualified legal or compliance help before entering a regulated market or signing a contract that imposes additional duties.
 
 ### Disaster Recovery & Backups
 
@@ -939,7 +940,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Metrics and distributed tracing (OpenTelemetry + Honeycomb/Datadog)
 - [ ] Database read replicas for scaling read traffic
 - [ ] Tenant isolation model and cross-tenant denial paths reviewed, documented, and tested
-- [ ] SOC 2 compliance process initiated (if selling B2B)
+- [ ] SOC 2 readiness and attestation evaluated against actual buyer or contract requirements
 - [ ] SAML/SSO support for enterprise identity providers
 - [ ] SCIM, service accounts, immutable audit logs, and tenant offboarding reviewed where customers require them
 - [ ] Disaster recovery plan documented, tested, and practiced
