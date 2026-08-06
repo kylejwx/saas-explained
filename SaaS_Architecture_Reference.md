@@ -446,7 +446,7 @@ This is the pillar most solo developers and small teams skip — and it's what s
 - **GitLab CI/CD** — excellent if you're on GitLab
 - **Railway, Render, Fly.io** — have built-in CD on every git push
 
-> 💡 **Minimum viable CI/CD**: A GitHub Actions workflow that runs your tests and deploys to production on every push to `main`. Takes under an hour to set up and saves hours of manual work per week.
+> 💡 **Minimum viable CI/CD**: A GitHub Actions workflow that runs your tests and deploys to production on every push to `main`. Start with the smallest workflow that makes every release repeatable and visible, then add gates as risk grows.
 
 #### Testing Strategy
 
@@ -559,7 +559,7 @@ Understanding these laws, standards, and assurance reports shapes good data hand
 | **[CCPA / CPRA](https://oag.ca.gov/privacy/ccpa)** | California consumer privacy rights | A for-profit business doing business in California that meets a statutory revenue, data-volume, or personal-data revenue threshold; obligations can also flow to service providers and contractors |
 | **[HIPAA](https://www.hhs.gov/hipaa/for-professionals/covered-entities/index.html)** | US protected health information (PHI) | A covered health plan, clearinghouse, or qualifying provider, and business associates handling PHI on their behalf—not every health or wellness app |
 | **[FERPA](https://studentprivacy.ed.gov/faq/which-educational-agencies-or-institutions-does-ferpa-apply)** | US education records | Education agencies or institutions receiving US Department of Education funds; vendor duties depend on the school's disclosure basis, contract, control, and handling of education records |
-| **[COPPA](https://www.ftc.gov/news-events/news/press-releases/2026/02/ftc-issues-coppa-policy-statement-incentivize-use-age-verification-technologies-protect-children)** | US online privacy for children under 13 | Commercial sites or online services directed to children under 13, or operators with actual knowledge that they collect personal information from a child under 13 |
+| **[COPPA](https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy)** | US online privacy for children under 13 | Commercial sites or online services directed to children under 13, or operators with actual knowledge that they collect personal information from a child under 13 |
 | **[SOC 2 Type II](https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services)** | CPA examination and report on controls relevant to selected trust services criteria over a period | Usually a customer, procurement, or contract-driven assurance request; it is an attestation report, not a law or universal certification |
 | **[PCI DSS](https://docs.stripe.com/security/guide)** | Payment-card account data and payment security | Entities that store, process, or transmit cardholder data and businesses accepting card payments. A hosted Stripe integration can greatly reduce scope and simplify attestation, but does not erase the merchant's responsibilities |
 
