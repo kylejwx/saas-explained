@@ -18,3 +18,4 @@
 - **Case studies:** Dates and sources public architecture claims, removes unsupported current revenue and team estimates, corrects Jitbit's founding year, Basecamp's cloud exit, and Bitwarden's native mobile rewrite, and distinguishes disclosed facts from inferred stacks.
 - **Backups:** Removes the assumption that managed backups are free, and ties backup frequency, retention, point-in-time recovery, fault-domain separation, access controls, and restore testing to explicit RPO and business risk.
 - **Vendor pricing:** Removes fixed VPS performance promises and unqualified free-tier claims for hosting, CI, secrets, edge, and error-tracking services; recommends checking current plan limits and total idle and operating costs.
+- **Rails scale:** Replaces a dated request-rate claim and "scale is settled" conclusion with sourced evidence that Rails can scale through substantial architecture, tooling, and team investment rather than framework choice alone.

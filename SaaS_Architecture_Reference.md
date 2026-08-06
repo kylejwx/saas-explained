@@ -697,7 +697,9 @@ Rails 8 ships with everything a solo developer needs to run a full production Sa
 - **Kamal 2** — deploys your app to your own servers with a streamlined container workflow (without requiring a PaaS or Kubernetes)
 - **Built-in Auth Generator** — complete session-based authentication scaffolding
 
-The result: one developer can deploy a fully featured production SaaS to a cheap server with no PaaS, no Redis, no Kubernetes, no build pipeline. This is DHH's direct counter-argument to "the cloud is too complicated." Shopify — which started on Rails in 2005 — handled 1 million requests per second in 2023. The scale argument is settled.
+The result: one developer can begin with one application, database-backed queue/cache/cable adapters, and a container deployment workflow instead of operating Redis, Kubernetes, and several managed services immediately. That reduces the starting service count; it does not remove image builds, database operations, backups, observability, patching, or capacity planning.
+
+Large Rails systems show that the framework is not an automatic scale ceiling. The [Rails Foundation's current Shopify profile](https://rubyonrails.org/foundation/shopify) describes a Rails monolith handling enormous Black Friday workloads, but also describes thousands of engineers and deep investment in sharding, development tooling, Ruby performance, and safe data migrations. The reader-facing lesson is that Rails can scale with appropriate architecture and investment—not that a new Rails app inherits Shopify's capacity.
 
 **Why doesn't everyone use Rails then?**
 
