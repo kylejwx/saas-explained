@@ -145,11 +145,36 @@ These are prompts for future guides rather than fully developed recommendations:
 - **Search as a core experience:** large catalogs, complex filtering, semantic retrieval, or rapid indexing; explore dedicated search and indexing architectures.
 - **High-reliability or safety-critical products:** systems where downtime or incorrect results are especially costly; explore redundancy, disaster recovery, monitoring, and deliberate failure modes.
 
-## 6. Package the guidance as an AI-agent skill
+## 6. Publish sensible architectural defaults
+
+Create a compact set of clearly labeled default recommendations for common SaaS decisions. These should give a solo builder or an AI agent a safe starting point while making the conditions and tradeoffs explicit rather than pretending that every product needs the same design.
+
+Initial example: prefer an external identity provider and modern passwordless or federated sign-in where it fits, rather than building and operating password authentication. Explain when enterprise single sign-on, social sign-in, passkeys, or another approach is appropriate; what a builder still owns (authorization, account recovery, and identity-provider integration); and the cases where password credentials may still be unavoidable.
+
+For each default, state:
+
+- The recommendation and the problem it avoids
+- The assumptions that make it a good default
+- Important exceptions and the decision signals that should override it
+- The smallest practical implementation path and compatible providers
+
+## 7. Publish stack templates
+
+Build reusable, opinionated templates that turn the site's architectural guidance into an end-to-end starting point. A builder or coding agent should be able to point to a template in this repository, understand its boundaries, and use the linked platform integrations to implement it.
+
+Initial templates to explore:
+
+- An Azure-first SaaS stack
+- An AWS-first SaaS stack
+- A composed stack using Vercel, Cloudflare, and a SQL database
+
+Each template should specify the selected services for every architectural responsibility, required accounts and integrations, setup sequence, secrets and access boundaries, deployment path, observability, estimated cost categories, and scaling or portability tradeoffs. Keep templates versioned and explicit about what they intentionally do not solve so they remain useful starting points rather than opaque one-click recipes.
+
+## 8. Package the guidance as an AI-agent skill
 
 Turn the repository's practical SaaS architecture guidance into a reusable skill that AI agents such as Claude and Codex can consume while helping builders plan, evaluate, and implement SaaS products. Explore how to package the guidance with clear instructions, source references, update/versioning practices, and examples that preserve the guide's emphasis on tradeoffs rather than prescribing a one-size-fits-all stack.
 
-## 7. Connect the additions into learning paths
+## 9. Connect the additions into learning paths
 
 As these sections grow, organize them into a few ways to explore the site:
 
