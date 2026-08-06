@@ -394,9 +394,9 @@ A dedicated virtual machine you manage yourself. Rails 8's Kamal deployment tool
 
 **Option D — Container Orchestration** *(AWS ECS/EKS, Azure AKS — see Part IV for what this is)*
 
-Self-managed container clusters on major cloud providers. Maximum control and cost efficiency at scale.
+Managed or self-managed container orchestration on major cloud providers. It can standardize deployment, scheduling, networking, policy, and scaling across many workloads.
 
-- ✅ Full control, cost-efficient at enterprise scale
+- ✅ Consistent platform controls and workload placement; can improve utilization at sufficient scale
 - ⚠️ Significant operational complexity — not for small teams without DevOps expertise
 
 #### Networking in SaaS
@@ -417,11 +417,13 @@ Filters known malicious traffic patterns before they reach your app. A WAF is de
 
 #### Scaling Stages
 
-| Stage | Typical User Count | Recommended Setup | Est. Monthly Cost |
-|---|---|---|---|
-| **MVP** | 5–500 users | Vercel/Render/Railway + Managed Postgres + hosting edge controls | $0–$50 |
-| **Growth** | 500–50,000 users | PaaS or Docker + VPS + Redis + CDN | $50–$500 |
-| **Scale** | 50,000–1M+ users | Kubernetes or ECS + Multi-region DB + Full observability stack | $1,000–$50,000+ |
+| Stage | Typical Signals | Common Starting Setup |
+|---|---|---|
+| **MVP** | One primary workload, modest traffic, limited operations time | PaaS/serverless + managed Postgres + hosting edge controls |
+| **Growth** | Sustained load, background work, measured cache or availability needs | PaaS or managed containers/VPS + managed database + queue/cache/CDN as justified |
+| **Platform Scale** | Many independently deployed workloads, stricter availability or regional requirements, dedicated platform expertise | Managed orchestration such as ECS/Kubernetes when its standardization and control outweigh the operating cost |
+
+User count alone does not select an architecture. A thousand users running compute-heavy analytics may need more infrastructure than a million readers of a cacheable page. Base scaling decisions on workload shape, availability objectives, deployment count, data topology, regulation, team expertise, and measured cost.
 
 ---
 
@@ -638,23 +640,26 @@ A container is a packaged, self-contained unit of software — your app, its dep
 
 Almost certainly **not** at first.
 
-| Stage | What You Need | Recommendation |
-|---|---|---|
-| Small SaaS (5–1,000 users) | Simple, cheap deployment | ❌ Use Vercel, Render, Railway, or Fly.io |
-| Growth (1,000–100,000 users) | More control and reliability | ⚠️ Maybe — only with DevOps expertise |
-| Scale (100,000+ users) | Maximum control and cost efficiency | ✅ Likely yes — complexity is now justified |
+| Situation | Recommendation |
+|---|---|
+| One or a few workloads that fit a PaaS or managed container service | ❌ Keep the simpler platform and spend engineering time on the product |
+| Several independently deployed workloads with growing operational friction | ⚠️ Compare Kubernetes with simpler managed orchestration; require a concrete problem, owner, and migration case |
+| A platform team needs common scheduling, policy, deployment, and multi-cluster controls | ✅ Kubernetes may be justified if the team can operate and upgrade it reliably |
 
-**The hidden cost of Kubernetes**: It requires significant expertise to run well. Misconfigured clusters have caused major outages at well-known companies. A managed Kubernetes cluster (AWS EKS, Azure AKS) costs ~$150–200/month *before* you run a single app on it.
+**The hidden cost of Kubernetes**: It requires significant expertise to run well, and the control-plane fee is only one line item. As verified in August 2026, [EKS standard support is $0.10 per cluster-hour](https://aws.amazon.com/eks/pricing/) (about $73 for 730 hours); [GKE charges $0.10 per cluster-hour with a monthly credit for one qualifying cluster](https://cloud.google.com/kubernetes-engine/pricing); and [AKS offers a no-SLA free control-plane tier](https://azure.microsoft.com/en-us/pricing/details/kubernetes-service/) while recommending a paid SLA tier for production. Worker compute, load balancers, public IPs, storage, network traffic, logging, backups, and engineering time are separate. Recheck pricing for your region and reliability tier.
 
-**The good news**: Platforms like Vercel, Render, Fly.io, and Railway already give you many Kubernetes benefits — auto-scaling, zero-downtime deployments, container management — without the operational complexity. They're "Kubernetes under the hood, hidden from you."
+**The good news**: Platforms such as Vercel, Render, Fly.io, and Railway can provide outcomes people seek from Kubernetes—managed deployment, health checks, scaling, and traffic routing—without exposing a cluster to the customer. Their implementations differ and can change; choose them for the product-level guarantees they document, not an assumption that they all run Kubernetes underneath.
 
 ### When Should You Actually Learn Kubernetes?
 
 Consider it when:
-- You're running more than ~5 separate services that each need independent scaling
-- Your cloud bill is high enough that 30–50% cost savings justify a DevOps investment
-- You're hiring a dedicated platform or DevOps engineer
-- You need fine-grained multi-region traffic control
+- Multiple independent workloads need consistent deployment, policy, scheduling, and isolation that your current platform cannot provide cleanly
+- Deployment frequency, reliability work, or infrastructure variation has become a measurable team bottleneck
+- A dedicated platform owner or team can handle upgrades, security, observability, capacity, and incident response
+- Multi-cluster, hybrid, regional, workload-placement, or regulatory controls require capabilities simpler platforms do not offer
+- A measured total-cost model—including engineering time and migration risk—beats the viable managed alternatives
+
+Do not adopt Kubernetes because of a user-count milestone, a resume goal, or an unverified promise of infrastructure savings.
 
 > 💡 **The takeaway**: Understand conceptually what Kubernetes does — it's the industry's answer to "how do you run many containers reliably at scale." But don't let learning Kubernetes block you from shipping. Start with a PaaS. Graduate to Kubernetes only if and when you outgrow it.
 

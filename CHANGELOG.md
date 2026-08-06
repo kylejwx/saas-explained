@@ -13,3 +13,4 @@
 - **Resilience:** Adds explicit timeouts, bounded retries with jitter, circuit breakers, bulkheads, graceful degradation, dependency health, SLOs, capacity tests, and controlled recovery exercises for partial failures.
 - **Data lifecycle:** Adds classification, minimization, retention, deletion across derived stores and backups, portability, key management, residency, subprocessors, privacy requests, and legal holds.
 - **Secure development and operations:** Adds threat modeling, code and secret scanning, least-privilege IAM, environment separation, privileged-action audit trails, controlled support access, emergency access, incident response, and integration review.
+- **Kubernetes adoption:** Replaces user-count thresholds and a universal empty-cluster cost with workload, reliability, team, and total-cost signals; corrects current control-plane pricing and removes the claim that every managed platform runs Kubernetes underneath.
