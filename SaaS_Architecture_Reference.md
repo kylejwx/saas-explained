@@ -115,7 +115,7 @@ Once your API is used by others (customers, integrations, mobile apps), you can'
 - **URL versioning**: `/api/v1/users`, `/api/v2/users` — explicit and easy to understand
 - **Header versioning**: `API-Version: 2` — cleaner URLs, slightly more complex
 
-> 💡 **For small SaaS**: Add versioning from day one, even if you're the only consumer. It costs almost nothing upfront and prevents painful migration problems later.
+> 💡 **For small SaaS**: Establish a versioning and compatibility policy before an API has independently deployed consumers such as customers, integrations, mobile apps, or desktop clients. A purely internal API that ships in lockstep with its only web client can usually evolve without public versions; premature versioning adds contracts and migration paths you may never need.
 
 #### Webhooks
 
@@ -869,7 +869,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Integration tests on authentication, billing, and core CRUD flows
 - [ ] Background job worker configured
 - [ ] Stripe/Paddle billing with webhook handling
-- [ ] API versioning scheme established
+- [ ] API compatibility/versioning policy established before supporting independently deployed clients or integrations
 - [ ] Rate limiting on all API endpoints
 - [ ] Structured logging (not just print statements)
 - [ ] Cloudflare in front of your app (CDN + WAF + DDoS)
