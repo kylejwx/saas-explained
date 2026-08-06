@@ -50,9 +50,9 @@ Software still installed locally, but now "called home" — checking licenses, d
 *Example: Early iTunes syncing to the iTunes Store. Early QuickBooks with online backup.*
 
 ### Era 3 — Cloud-Native SaaS
-Zero local installation. The app lives entirely on servers owned by the software company. Users access it through a browser or thin native client. The company updates every user simultaneously, scales instantly, and charges monthly. Data is backed up automatically.
+The vendor operates the application as an ongoing service on cloud infrastructure, with little or no vendor-managed infrastructure at the customer's location. Users may access it through a browser, API, mobile app, desktop client, or another thin or thick client. Server-side updates are deployed centrally, while scaling and backups remain architectural responsibilities rather than automatic properties of SaaS. Pricing may be subscription-, usage-, or transaction-based. This matches the client-flexible model in the [NIST definition of cloud computing](https://nvlpubs.nist.gov/nistpubs/legacy/sp/nistspecialpublication800-145.pdf).
 
-*Example: Notion, Linear, Stripe, GitHub — all run in your browser, always updated, never installed.*
+*Example: Notion, Linear, Stripe, and GitHub provide centrally operated services through web interfaces and APIs; some also have locally installed clients.*
 
 > 🔑 **Why this matters architecturally**: Cloud-native SaaS means your app must handle many simultaneous users, protect their data with multi-tenant isolation, stay online 24/7, and deploy updates without downtime. These requirements drive every architectural decision in this guide.
 
