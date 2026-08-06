@@ -217,15 +217,17 @@ These are distinct concerns. Conflating them causes security bugs.
 
 #### Authorization & Multi-Tenancy
 
-Multi-tenancy is the defining characteristic of SaaS: **Customer A must never see Customer B's data.** This is enforced through tenant-scoped database queries and organizational data models.
+Multi-tenancy is a core design concern for most SaaS: **Customer A must never see Customer B's data.** Authentication and a valid object ID are not sufficient authorization; every operation must verify that the caller may act on that specific object. [Broken Object-Level Authorization (BOLA)](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/) is OWASP's first API Security Top 10 risk for 2023.
 
 - **Role-Based Access Control (RBAC)**: Users have roles (admin, editor, viewer) that determine what actions they can take
-- **Tenant Isolation Models**:
-  - *Pool Model*: All tenants share the same database tables, separated by a `tenant_id` column — cost-efficient, requires disciplined query scoping in every query
-  - *Silo Model*: Each tenant gets their own database schema — maximum isolation, higher cost, preferred for regulated industries or large enterprise clients
-  - *Bridge/Hybrid*: Pool model for small customers, Silo for enterprise
+- **Object-Level Authorization**: Every read, write, export, and background job checks both the caller's permission and the object's tenant ownership
+- **Tenant Isolation Models** ([AWS terminology](https://aws.amazon.com/blogs/database/multi-tenant-data-isolation-with-postgresql-row-level-security/)):
+  - *Pool Model*: Tenants share a database and schema; rows carry a tenant identifier — lowest infrastructure cost, but the widest blast radius and the greatest need for consistent enforcement
+  - *Bridge Model*: Tenants share a database instance but use separate schemas, or selected components use dedicated resources — stronger separation with more provisioning and migration overhead
+  - *Silo Model*: Each tenant receives a dedicated database instance or full infrastructure stack — strongest isolation and smallest cross-tenant blast radius, at the highest cost and operational burden
+  - *Hybrid Deployment*: Different tiers use different models, such as pooled small tenants and dedicated enterprise tenants
 
-> ⚠️ **Multi-tenant data leakage is one of the most catastrophic SaaS failures possible.** Bake tenant scoping into your data access layer from day one — don't rely solely on application-level filtering.
+> ⚠️ **Multi-tenant data leakage is one of the most catastrophic SaaS failures possible.** Centralize tenant scoping in the data-access layer and add database-enforced policies such as PostgreSQL Row-Level Security where the risk justifies it. RLS is defense in depth, not magic: connect with roles that cannot bypass the policy, set tenant context from trusted server-side identity, cover writes as well as reads, and test cross-tenant denial paths.
 
 ---
 
@@ -855,7 +857,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 - [ ] Source code in version control (GitHub / GitLab)
 - [ ] Secrets in a vault or `.env` file **excluded from git** — verify with `git-secrets`
 - [ ] Relational database (PostgreSQL) with migration tooling configured
-- [ ] Multi-tenant data model with row-level tenant scoping from the start
+- [ ] Multi-tenant data model with centralized object authorization and tested isolation controls
 - [ ] Authentication via managed service (Clerk, Auth0, Supabase Auth, or framework-native)
 - [ ] HTTPS enabled (automatic on PaaS platforms and Cloudflare)
 - [ ] Object storage for user file uploads (AWS S3 or Cloudflare R2 — never local disk)
@@ -880,7 +882,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 
 - [ ] Metrics and distributed tracing (OpenTelemetry + Honeycomb/Datadog)
 - [ ] Database read replicas for scaling read traffic
-- [ ] Tenant isolation model reviewed, documented, and tested
+- [ ] Tenant isolation model and cross-tenant denial paths reviewed, documented, and tested
 - [ ] SOC 2 compliance process initiated (if selling B2B)
 - [ ] SAML/SSO support for enterprise identity providers
 - [ ] Disaster recovery plan documented, tested, and practiced
