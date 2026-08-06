@@ -410,7 +410,7 @@ Caches your static assets (images, JS, CSS) on servers around the world so users
 Distribute incoming traffic across multiple server instances. Required when you run more than one copy of your app. Managed automatically by PaaS platforms; included in cloud provider networking.
 
 **Virtual Private Cloud / Network (VPC/VNet)**
-A private network inside the cloud where your database, cache, and internal services communicate — without touching the public internet. Your database should **always** be on a private subnet, never directly publicly accessible.
+A private network inside the cloud where your database, cache, and internal services communicate without traversing the public internet. Prefer private connectivity for production data stores when the provider and deployment model support it. Some managed and serverless databases expose only public TLS endpoints; in that case, require certificate verification and strong rotating credentials, restrict source networks or use provider access controls where available, keep administrative interfaces separate, and monitor failed access. A public endpoint is not permission to make the database anonymously or broadly reachable.
 
 **Web Application Firewalls (WAF)**
 Filters malicious traffic — SQL injection, XSS attempts, bot attacks — before it reaches your app. Cloudflare WAF works excellently at the free tier for small SaaS.

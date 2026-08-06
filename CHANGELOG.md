@@ -7,3 +7,4 @@
 - **Message delivery:** Requires idempotent handlers, webhook verification and deduplication, bounded retries, dead-letter handling, replay procedures, explicit ordering, and an outbox when database and message state must stay aligned.
 - **Billing and tax:** Separates payment processing, subscriptions, tax calculation, registration and filing, and Merchant of Record service so builders can compare the actual responsibilities delegated by each product.
 - **Email and notifications:** Adds queued, idempotent delivery; domain authentication; bounce and complaint processing; suppression; preferences; secure action links; and provider-selection criteria.
+- **Database networking:** Prefers private connectivity where available while defining compensating controls for managed databases that expose authenticated public TLS endpoints.
