@@ -596,10 +596,11 @@ Most production failures are partial: the database is slow, an identity provider
 
 Your database is your most valuable asset. Treat it that way.
 
-- **Automated daily backups** — most managed database services (Neon, Supabase, Railway, AWS RDS) include this at no extra charge
+- **Automated backups with explicit retention** — managed database plans vary in backup frequency, retention, storage charges, and restore capabilities; verify and enable the level your RPO requires
 - **Test your restore process** — a backup you've never tested is a backup you don't have
-- **Point-in-time recovery** — ability to restore to any moment, not just daily snapshots
-- **Offsite backup** — backup to a different cloud provider or region than your primary
+- **Point-in-time recovery where needed** — confirm the actual recovery window and test restoring to a chosen time, not only the latest snapshot
+- **Independent fault domain** — keep recoverable copies in a separate region, account, or provider when the business impact justifies protection from regional, account, provider, or operator failure
+- **Restricted and monitored access** — encrypt backups, tightly limit deletion and restore permissions, alert on destructive changes, and prevent an ordinary application credential from deleting every recovery copy
 - Define your **Recovery Time Objective (RTO)**: how long can your app be down?
 - Define your **Recovery Point Objective (RPO)**: how much data can you afford to lose?
 
