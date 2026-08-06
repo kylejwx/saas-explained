@@ -548,6 +548,20 @@ Understanding these laws, standards, and assurance reports shapes good data hand
 
 > 💡 **For small SaaS**: Map the data and customers you actually have, use low-scope payment integrations, write an accurate privacy notice, collect only what you need, and build export and deletion paths. Reassess with qualified legal or compliance help before entering a regulated market or signing a contract that imposes additional duties.
 
+### Resilience & Partial Failure
+
+Most production failures are partial: the database is slow, an identity provider times out, a payment API rate-limits you, or one tenant consumes a shared pool. Design each remote dependency as fallible.
+
+- **Explicit timeouts**: Set connection and operation deadlines at every network boundary. A request that can wait forever can exhaust threads, sockets, and database connections.
+- **Bounded retries with backoff and jitter**: Retry only operations and failure classes that are safe and likely transient. Cap attempts and total time, honor provider `Retry-After` guidance, and budget retries across concurrent requests so they do not amplify an outage.
+- **Circuit breakers and bulkheads**: Stop calling a dependency that is persistently failing, and isolate connection pools, worker capacity, or tenant workloads so one failure cannot consume everything. The [Circuit Breaker pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/circuit-breaker) can preserve resources and trigger graceful degradation.
+- **Graceful degradation**: Decide which features can serve cached or stale data, queue work, become read-only, or temporarily disappear while core account and data-safety paths remain available.
+- **Dependency health**: Monitor the user-visible success, latency, saturation, quotas, and status of critical dependencies—not only whether your own process is running.
+- **Capacity and objectives**: Define service-level indicators (SLIs) and service-level objectives (SLOs) for important journeys, then load-test expected peaks and failure modes against them.
+- **Recovery exercises**: Practice dependency outages, failover, queue backlog recovery, and restore procedures in safe environments. Failure injection is useful only with a bounded blast radius, clear stop conditions, and observability.
+
+> 💡 **For small SaaS**: Begin with timeouts, safe bounded retries, health monitoring, and one documented fallback for each load-bearing provider. Add circuit breakers, bulkheads, formal SLOs, and controlled failure exercises as dependency count and availability promises grow.
+
 ### Disaster Recovery & Backups
 
 Your database is your most valuable asset. Treat it that way.
@@ -923,6 +937,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 
 - [ ] CI/CD pipeline (GitHub Actions minimum — test on every push, deploy on merge to main)
 - [ ] Integration tests on authentication, billing, and core CRUD flows
+- [ ] Critical dependency timeouts, retry limits, and graceful-degradation behavior tested
 - [ ] Background job worker configured
 - [ ] Bounce, complaint, suppression, and duplicate-notification handling tested
 - [ ] Stripe/Paddle billing with webhook handling
@@ -938,6 +953,7 @@ Use this as a launch-readiness checklist, not a day-one requirement list. Items 
 ### Scale — Before Your First Enterprise Customer
 
 - [ ] Metrics and distributed tracing (OpenTelemetry + Honeycomb/Datadog)
+- [ ] SLIs/SLOs, load tests, dependency-failure drills, and capacity limits defined for critical journeys
 - [ ] Database read replicas for scaling read traffic
 - [ ] Tenant isolation model and cross-tenant denial paths reviewed, documented, and tested
 - [ ] SOC 2 readiness and attestation evaluated against actual buyer or contract requirements
