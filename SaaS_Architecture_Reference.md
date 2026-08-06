@@ -7,7 +7,7 @@
 
 ## 🛗 The 30-Second Elevator Pitch
 
-A SaaS (Software-as-a-Service) app is software you run in the cloud and charge people a subscription to use — instead of shipping them a copy to install. Every SaaS, whether it has 5 users or 5 million, is built from the same **8 structural layers**:
+A SaaS (Software-as-a-Service) app is software a provider operates as an ongoing online service rather than a copy the customer installs and operates. It may be sold by subscription, usage, transaction, contract, or offered free. Every SaaS, whether it has 5 users or 5 million, is built from the same **8 structural layers**:
 
 1. **Front End** — what users see and click
 2. **Back End / API** — the brain that processes requests
