@@ -801,56 +801,53 @@ Google Cloud extended the Twelve-Factor App with four additional factors for AI-
 
 ## Part VII: Real-World Case Studies
 
-These examples represent real architectural diversity — different stacks, team sizes, philosophies, and scales. Not chosen because they're the biggest, but because they're instructive.
+These examples represent architectural diversity rather than complete stack inventories. Public claims below were checked against first-party sources on **August 5, 2026**. A dated source proves what a company disclosed at that time, not every component it runs today; undisclosed details and unsupported current revenue estimates are omitted.
 
 ---
 
-### 🎫 Jitbit — Sustainable Small Team, Real Revenue
+### 🎫 Jitbit — Sustainable Small Team, Mature Stack
 
-**What it is**: Email-first help desk and IT ticketing SaaS (plus self-hosted version)
-**Team**: ~3 people
-**Revenue**: ~$2.4M ARR (bootstrapped)
-**Founded**: 2004, Edinburgh UK
-**Tech Stack**: ASP.NET Core / C#, Microsoft SQL Server, Amazon EC2, Amazon S3, Cloudflare, NGINX, Sentry
+- **What it is**: Email-first help desk and IT ticketing SaaS with a self-hosted edition
+- **Company facts**: [Founded in 2005; private, profitable, and self-funded](https://www.jitbit.com/company/)
+- **Publicly documented stack**: The current self-hosted requirements specify [ASP.NET Core and Microsoft SQL Server on Windows, Linux, or Docker](https://www.jitbit.com/helpdesk/system-requirements/). A [January 2025 first-party architecture post](https://www.jitbit.com/news/5366-how-we-migrated-a-1tb-database-from-win-to-linux-with-no-downtime/) describes the hosted product using SQL Server, S3 for attachments, and Redis for cache persistence. These sources do not establish a complete current production inventory.
 
-**Why it's instructive**: Jitbit is the clearest proof that sustainable SaaS doesn't require a large team, VC money, or trendy technology. Three people generate $2.4M ARR using a Microsoft stack that's been mature for 20 years. They offer both a cloud SaaS version and a self-hosted Docker version — a model that opens enterprise and security-conscious customers who won't put their data in someone else's cloud.
+**Why it's instructive**: Jitbit shows that a profitable, self-funded SaaS can use a mature Microsoft stack and offer both hosted and customer-operated deployment without chasing every infrastructure trend.
 
 **Architectural lessons:**
-- You don't need the newest stack. ASP.NET Core / C# is fast, reliable, and excellent for enterprise-facing SaaS.
-- **Self-hosted + SaaS dual deployment** is a competitive moat — it serves markets that pure SaaS can't touch.
-- Small team + focused product = high margins. No board, no investors, full ownership.
-- Cloudflare for CDN, security, and DNS — same pattern as most well-run small SaaS products.
+- A mature stack the team knows can be a stronger business choice than a fashionable one.
+- A self-hosted edition can reach customers with deployment constraints, but it also creates packaging, upgrade, support, compatibility, and security-patch obligations.
+- Public architecture posts are snapshots; use them to study decisions, not to infer an undisclosed current stack.
 
 ---
 
-### 🏕️ Basecamp — The One-Person Framework in Practice
+### 🏕️ Basecamp — Monoliths and a Context-Specific Cloud Exit
 
 **What it is**: Project management and team communication SaaS
-**Team**: ~70 employees (37signals)
-**Revenue**: Estimated $100M+ ARR
-**Tech Stack**: Ruby on Rails + Hotwire, MySQL, Redis, AWS
+**Publicly documented stack and operations**: 37signals documents Basecamp development with [Ruby on Rails and Hotwire](https://dev.37signals.com/building-basecamp-project-stacks-with-hotwire/). In 2023 it moved Basecamp, HEY, and five heritage applications [out of AWS and onto its own hardware](https://basecamp.com/cloud-exit), projecting roughly $10 million in savings over five years without adding operations staff. Its stack and cloud-service mix continue to evolve.
 
-**Why it's instructive**: Basecamp is the original proof of DHH's thesis — a small team using the right framework can build and operate a large-scale, commercially successful SaaS without armies of developers.
+**Why it's instructive**: Basecamp demonstrates both that a disciplined monolith can operate at significant scale and that infrastructure economics depend on workload shape, scale, existing expertise, and organizational philosophy.
 
 *See Part V for the full explanation of the Rails commitment.*
 
 **Architectural lessons:**
 - Monolith-first at significant scale is not a failure — it's a deliberate choice
 - Server-rendered HTML with Hotwire shows React is not required for a modern, fast, interactive UI
-- Simplicity as a competitive advantage — every feature Basecamp refuses to build is complexity their team doesn't have to maintain
+- A successful cloud exit by an experienced operations team is not a general recommendation for an early SaaS to buy hardware; managed infrastructure usually remains the simpler starting point
+- Re-evaluate build-versus-buy economics when measured spending and team capability change, not from ideology alone
 
 ---
 
 ### 🔐 Bitwarden — Open-Source Architecture Builds Trust
 
-**What it is**: Password management SaaS (and self-hosted)
-**Tech Stack**: .NET Core (C#), Angular/TypeScript (web client), C#/Xamarin (mobile/desktop), self-hosted via Docker
+- **What it is**: Password management SaaS with self-hosted deployment and open-source clients and server
+- **Publicly documented stack**: The service has a [.NET server](https://github.com/bitwarden/server) and web/desktop/browser clients in the [shared clients repository](https://github.com/bitwarden/clients). Bitwarden replaced its Xamarin mobile clients with native applications; its public [Android repository uses Kotlin](https://github.com/bitwarden/android), its [iOS repository uses Swift](https://github.com/bitwarden/ios), and the [desktop application remains Electron-based with a Rust native module](https://contributing.bitwarden.com/getting-started/clients/desktop/desktop-native/).
 
-**Why it's instructive**: Bitwarden demonstrates cross-platform architecture where the same core logic runs as a cloud SaaS, a self-hosted Docker container, browser extensions, mobile apps, and desktop clients. Open-sourcing the core code builds enormous trust for a product where trust is the product.
+**Why it's instructive**: Bitwarden demonstrates a shared service and security model delivered through several client architectures. Open source makes important implementation details inspectable for a product where trust is central.
 
 **Architectural lessons:**
-- .NET Core's cross-platform story enables one codebase across web, desktop, mobile, and server
-- Open-source the core to build trust; monetize through hosting, enterprise features, and support tiers
+- Cross-platform delivery does not require one UI codebase; native clients can be worth the additional code when performance, platform integration, security, or accessibility demands it
+- Share protocols, domain rules, generated bindings, and cryptographic components selectively rather than assuming every platform should share the same presentation layer
+- Open source can improve inspectability and trust when paired with external audits, transparent builds, disclosure processes, and responsive maintenance
 - Self-hosted option serves security-conscious customers and regulated industries
 
 ---
@@ -858,9 +855,9 @@ These examples represent real architectural diversity — different stacks, team
 ### 🔗 Tailscale — Go for Distributed Networking
 
 **What it is**: Zero-config VPN and mesh networking SaaS
-**Tech Stack**: Go (client nodes), WireGuard (protocol), PostgreSQL + React (coordination plane)
+**Publicly documented architecture**: Tailscale's [open-source client is primarily Go](https://github.com/tailscale/tailscale). Its [architecture overview](https://tailscale.com/blog/how-tailscale-works) describes a WireGuard-based peer-to-peer data plane and a centralized coordination control plane for keys and policy. The complete hosted control-plane stack is not publicly documented here.
 
-**Why it's instructive**: Tailscale shows why Go dominates networking and infrastructure SaaS. Cross-platform clients need to run efficiently on Linux, macOS, Windows, iOS, Android, and embedded devices. Go compiles to small, fast, dependency-free binaries for all of them.
+**Why it's instructive**: Tailscale shows how separating coordination from data transfer can avoid making the SaaS control plane the normal traffic bottleneck, and why a portable systems language is useful for cross-platform networking clients.
 
 **Architectural lessons:**
 - Match your language to your domain — Go's binary footprint and concurrency model are structural advantages for a distributed networking product
@@ -869,19 +866,17 @@ These examples represent real architectural diversity — different stacks, team
 
 ---
 
-### 🌎 Nomad List — Proof That Stack Doesn't Matter
+### 🌎 Nomad List — A Historical Study in Deliberate Simplicity
 
 **What it is**: City rankings and community for remote workers
-**Team**: 1 person (Pieter Levels)
-**Revenue**: $1.5M+ ARR
-**Tech Stack**: Vanilla PHP, jQuery, SQLite → PostgreSQL (migrated later)
+**Publicly documented snapshot**: In a [2020 first-person account](https://levels.io/deviance/), founder Pieter Levels described running his product portfolio with PHP, jQuery, a single VPS, no framework, and two part-time contractors. That historical account does not establish Nomad List's current stack, staffing, or revenue.
 
-**Why it's instructive**: Pieter Levels built Nomad List in a weekend with the least sophisticated tech stack imaginable — no frameworks, no modern build tools, no containers. It generates $1.5M+ ARR as a one-person operation.
+**Why it's instructive**: Nomad List is evidence that a simple stack and aggressive shipping can fit some products and founders. It is not evidence that controls, tests, migrations, backups, or operational discipline do not matter.
 
 **Architectural lessons:**
 - **The best architecture is the one you can actually ship.** Pieter launched in a weekend; someone else is still architecting their microservices.
-- Optimize for iteration speed first. You can pay down technical debt after you have users.
-- Simplicity compounds. One person can maintain a straightforward PHP/SQLite app for years without infrastructure complexity eating their time.
+- Optimize for iteration speed while preserving the security, data, and recovery foundations appropriate to the product's risk.
+- Simplicity compounds, but a historical founder account should not be copied as a universal production checklist.
 
 > ⚠️ **The counter-point**: This approach works for a directory/community app. It would be genuinely dangerous for a multi-tenant SaaS handling financial transactions, healthcare data, or education records. Know your context — and know your compliance obligations.
 
