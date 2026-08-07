@@ -30,3 +30,9 @@ features:
 The [SaaS Architecture Reference](/architecture) is the core learning path. It explains the major building blocks of a modern SaaS product, why they exist, and when they matter.
 
 You do not need to master every layer at once. Start with the simplest useful version, then let real customer needs guide what you add next.
+
+## Explore the roadmap
+
+The [Site Expansion Roadmap](/roadmap) makes the next areas of exploration easy to find. It collects possible guides, case studies, tools, and learning paths for the site.
+
+It is an idea bank rather than a fixed plan, so it can grow with the questions builders need answered next.

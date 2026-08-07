@@ -1,3 +1,7 @@
+---
+title: Site Expansion Roadmap
+---
+
 # Site Expansion Roadmap
 
 This is an idea bank for possible future additions to the site. It is not a commitment to a particular order, scope, or implementation.

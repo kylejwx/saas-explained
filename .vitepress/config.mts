@@ -6,12 +6,14 @@ export default defineConfig({
   base: '/saas-explained/',
   lastUpdated: true,
   rewrites: {
-    'SaaS_Architecture_Reference.md': 'architecture.md'
+    'SaaS_Architecture_Reference.md': 'architecture.md',
+    'ROADMAP_IDEAS.md': 'roadmap.md'
   },
   themeConfig: {
     nav: [
       { text: 'Start here', link: '/' },
       { text: 'Architecture reference', link: '/architecture' },
+      { text: 'Roadmap', link: '/roadmap' },
       { text: 'Changes & editions', link: '/versions' }
     ],
     sidebar: [
@@ -20,6 +22,7 @@ export default defineConfig({
         items: [
           { text: 'Start here', link: '/' },
           { text: 'Architecture reference', link: '/architecture' },
+          { text: 'Roadmap', link: '/roadmap' },
           { text: 'Changes & editions', link: '/versions' }
         ]
       }
@@ -28,6 +31,7 @@ export default defineConfig({
       label: 'On this page',
       level: [2, 3]
     },
+    aside: 'left',
     search: {
       provider: 'local'
     },
