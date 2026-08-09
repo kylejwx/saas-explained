@@ -4,6 +4,11 @@ export default defineConfig({
   title: 'SaaS Explained',
   description: 'A practical guide to understanding how SaaS works.',
   base: '/saas-explained/',
+  head: [
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/saas-explained/favicon.ico' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/saas-explained/favicon-32x32.png' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/saas-explained/apple-touch-icon.png' }]
+  ],
   lastUpdated: true,
   rewrites: {
     'SaaS_Architecture_Reference.md': 'architecture.md',
