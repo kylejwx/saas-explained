@@ -14,6 +14,8 @@ Add a section about platforms that claim to take an application from an idea to 
 
 Use Replit as the initial example of the all-in-one approach. Explore the experience of signing in, describing or coding an application, and allowing one platform to handle most or all of the supporting work.
 
+The [Replit all-in-one case study](/replit-case-study) now develops this first example. It distinguishes documented platform capabilities from the product, security, and operational work that remains with the builder.
+
 Questions to answer:
 
 - What can Replit generate or configure automatically?

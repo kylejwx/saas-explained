@@ -12,12 +12,14 @@ export default defineConfig({
   lastUpdated: true,
   rewrites: {
     'SaaS_Architecture_Reference.md': 'architecture.md',
-    'ROADMAP_IDEAS.md': 'roadmap.md'
+    'ROADMAP_IDEAS.md': 'roadmap.md',
+    'Replit_All_in_One_Case_Study.md': 'replit-case-study.md'
   },
   themeConfig: {
     nav: [
       { text: 'Start here', link: '/' },
       { text: 'Architecture reference', link: '/architecture' },
+      { text: 'Replit case study', link: '/replit-case-study' },
       { text: 'Roadmap', link: '/roadmap' },
       { text: 'Changes & editions', link: '/versions' }
     ],
@@ -27,6 +29,7 @@ export default defineConfig({
         items: [
           { text: 'Start here', link: '/' },
           { text: 'Architecture reference', link: '/architecture' },
+          { text: 'Replit case study', link: '/replit-case-study' },
           { text: 'Roadmap', link: '/roadmap' },
           { text: 'Changes & editions', link: '/versions' }
         ]

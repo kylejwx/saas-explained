@@ -31,6 +31,10 @@ The [SaaS Architecture Reference](/architecture) is the core learning path. It e
 
 You do not need to master every layer at once. Start with the simplest useful version, then let real customer needs guide what you add next.
 
+## See an all-in-one platform in context
+
+The [Replit all-in-one case study](/replit-case-study) maps a browser-based AI development platform to the responsibilities of a small SaaS. It explains what Replit can combine, what still needs deliberate product and operational ownership, and when the tradeoffs fit.
+
 ## Explore the roadmap
 
 The [Site Expansion Roadmap](/roadmap) makes the next areas of exploration easy to find. It collects possible guides, case studies, tools, and learning paths for the site.
