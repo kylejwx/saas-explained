@@ -19,6 +19,7 @@ export default defineConfig({
     nav: [
       { text: 'Start here', link: '/' },
       { text: 'Architecture reference', link: '/architecture' },
+      { text: 'Azure', link: '/azure' },
       { text: 'Replit case study', link: '/replit-case-study' },
       { text: 'Roadmap', link: '/roadmap' },
       { text: 'Changes & editions', link: '/versions' }
@@ -29,6 +30,7 @@ export default defineConfig({
         items: [
           { text: 'Start here', link: '/' },
           { text: 'Architecture reference', link: '/architecture' },
+          { text: 'Build on Azure', link: '/azure' },
           { text: 'Replit case study', link: '/replit-case-study' },
           { text: 'Roadmap', link: '/roadmap' },
           { text: 'Changes & editions', link: '/versions' }

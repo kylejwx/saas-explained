@@ -31,6 +31,12 @@ The [SaaS Architecture Reference](/architecture) is the core learning path. It e
 
 You do not need to master every layer at once. Start with the simplest useful version, then let real customer needs guide what you add next.
 
+## Build the stack on Azure
+
+The [Microsoft Azure guide](/azure) takes the provider-neutral architecture concepts and maps them onto a practical Azure stack for a small SaaS.
+
+It separates the AI coding tool from the production platform, then walks through App Service, PostgreSQL, Entra External ID, managed identities, Blob Storage, Key Vault, infrastructure as code, deployment, monitoring, and a path for adding more Azure services only when the application actually needs them.
+
 ## See an all-in-one platform in context
 
 The [Replit all-in-one case study](/replit-case-study) maps a browser-based AI development platform to the responsibilities of a small SaaS. It explains what Replit can combine, what still needs deliberate product and operational ownership, and when the tradeoffs fit.

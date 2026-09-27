@@ -69,6 +69,12 @@ Each provider guide could include:
 - Portability and vendor-lock-in concerns
 - Which services are optional conveniences versus essential parts of the stack
 
+### Azure reference stack
+
+The first provider-specific module is now the [Microsoft Azure guide](/azure). It defines an opinionated small-SaaS reference architecture while keeping the developer's AI coding agent separate from the hosting platform.
+
+Future work should validate the documented architecture with a shared reference application, then implement equivalent versions on other platforms so readers can compare the same workload rather than unrelated demos.
+
 After the individual guides, add a comparison that shows where each cloud is strongest and how much cloud-specific knowledge each approach requires.
 
 ## 3. Add focused tool explainers
@@ -194,10 +200,11 @@ A shared example application could make the comparisons concrete. The same small
 ## Possible first sequence
 
 1. Replit all-in-one case study
-2. VitePress and this site's own minimal architecture
-3. Vercel tool explainer
-4. One-vendor AWS, Azure, and Google Cloud reference stacks
-5. Cross-provider comparison
-6. First real SaaS architecture case study
+2. Microsoft Azure reference stack and shared-application validation
+3. VitePress and this site's own minimal architecture
+4. Vercel tool explainer
+5. AWS and Google Cloud reference stacks
+6. Cross-provider comparison
+7. First real SaaS architecture case study
 
 Before publishing any guide, verify current product capabilities, pricing, and service names against primary sources because cloud and developer-platform offerings change frequently.

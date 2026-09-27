@@ -188,6 +188,8 @@ One of the most underappreciated operational challenges in SaaS: **how do you ch
 - **Never manually alter a production database schema directly**
 - Design migrations to be backward-compatible when possible (add new columns before removing old ones)
 
+> **Provider example:** See [Build a SaaS on Microsoft Azure](/azure) for one concrete mapping of a managed PostgreSQL database, deployment workflow, backups, and operational responsibilities.
+
 ---
 
 ### Pillar 4: Identity & Security (AuthN / AuthZ)
@@ -242,6 +244,8 @@ Tenant architecture is more than adding `tenant_id` to queries. Define the lifec
 - **Recovery and movement**: Decide whether backups can restore one tenant without overwriting others, and design migrations between pooled and dedicated deployments before promising that capability
 
 > 💡 **For small SaaS**: You do not need enterprise SSO, per-tenant restore, or data-residency automation on day one. You do need an explicit tenant identity, lifecycle states, ownership rules, and a path to delete or export one tenant without affecting another.
+
+> **Provider example:** See [Build a SaaS on Microsoft Azure](/azure) for one concrete mapping of customer identity to Entra External ID and workload identity to managed identities.
 
 ---
 
@@ -424,6 +428,8 @@ Filters known malicious traffic patterns before they reach your app. A WAF is de
 | **Platform Scale** | Many independently deployed workloads, stricter availability or regional requirements, dedicated platform expertise | Managed orchestration such as ECS/Kubernetes when its standardization and control outweigh the operating cost |
 
 User count alone does not select an architecture. A thousand users running compute-heavy analytics may need more infrastructure than a million readers of a cacheable page. Base scaling decisions on workload shape, availability objectives, deployment count, data topology, regulation, team expertise, and measured cost.
+
+> **Provider example:** See [Build a SaaS on Microsoft Azure](/azure) for one concrete small-SaaS mapping to App Service, PostgreSQL, Blob Storage, Key Vault, infrastructure as code, and Azure monitoring.
 
 ---
 
