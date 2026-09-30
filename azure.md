@@ -116,6 +116,22 @@ The practical lesson is:
 
 A developer can reasonably choose the coding agent they prefer while still using Microsoft's Azure-native deployment and operations tooling.
 
+### Three Azure agent building blocks
+
+Microsoft now has several similarly named pieces that solve different problems.
+
+| Tool | What it provides | What it does not mean |
+| --- | --- | --- |
+| **Azure Agent Skills** | Microsoft-authored `SKILL.md` knowledge modules grounded in Microsoft Learn. They follow the open Agent Skills standard and can be used by compatible assistants including GitHub Copilot, Claude Code, Codex CLI, Cursor, Gemini CLI, OpenCode, and others. | They are primarily guidance and knowledge. Installing a skill does not by itself give an agent permission to change Azure resources. |
+| **Azure Skills** | Higher-level Azure workflows such as `azure-prepare`, `azure-validate`, and `azure-deploy`. They help an agent analyze an app, prepare infrastructure, validate it, deploy it, diagnose problems, and perform other Azure-specific workflows. | They are not a hosting service. They orchestrate development and operations work. |
+| **Azure MCP Server** | MCP tools that let a compatible agent interact with Azure services and resources. Azure Skills use these tools underneath for many live Azure operations. | MCP is an agent-to-tool interface, not the application's runtime architecture. |
+
+The **Microsoft Learn MCP Server** is another related but different piece: it retrieves current Microsoft Learn documentation. Azure Agent Skills can use it to fetch authoritative documentation, while Azure MCP Server is focused on interacting with Azure services.
+
+The practical distinction is:
+
+> **Agent Skills provide knowledge. Azure Skills provide workflows. Azure MCP Server provides Azure tools. Azure services run the application.**
+
 ### Why this distinction matters
 
 This creates an important architectural boundary:
@@ -144,7 +160,7 @@ Do not collapse those four responsibilities into one product.
 
 For a small conventional SaaS, start here:
 
-![Azure reference architecture: a customer uses Entra External ID and an App Service web application. The application uses PostgreSQL, Blob Storage, Key Vault through managed identity, and Azure monitoring. A GitHub repository, coding agent, Azure Agent Skills and MCP, plus azd, Bicep, and GitHub Actions form the development and deployment path.](/azure-reference-architecture.svg)
+![Azure reference architecture: a customer signs in with Entra External ID and uses an App Service application over a custom domain with HTTPS. App Service owns SaaS tenant authorization, uses managed identity to access PostgreSQL, Blob Storage, and Key Vault, and sends telemetry to Application Insights and Azure Monitor. GitHub, a coding agent, Azure Agent Skills, Azure Skills and Azure MCP Server, plus azd, Bicep, and GitHub Actions form the development and deployment path.](/azure-reference-architecture.svg)
 
 This is not the only valid Azure architecture. It is the **default teaching architecture** for this guide.
 
@@ -293,6 +309,35 @@ Use managed identities for Azure resources where possible.
 
 These are three different identity jobs.
 
+### Authentication is not SaaS tenant authorization
+
+There is an important naming collision in SaaS architecture: an **application tenant** and a **Microsoft Entra tenant** are not necessarily the same thing.
+
+For a B2B SaaS, an application tenant normally represents one customer organization. That customer can have many users. Entra External ID can establish who a user is, but the SaaS still needs to decide:
+
+- which customer organization or tenant the user belongs to;
+- whether the user belongs to more than one tenant;
+- what role or permissions the user has inside each tenant;
+- which tenant-owned records the user may read or change.
+
+For a simple shared-database SaaS, a reasonable starting model is:
+
+```text
+User
+  │
+  └── Membership ──> Organization / SaaS tenant
+                         │
+                         └── tenant-owned application data
+```
+
+The application should enforce this authorization on the server side. In a shared-table design, tenant-owned records should be scoped by a tenant or organization identifier, and data access should consistently enforce that boundary.
+
+External ID can participate in role-based authorization, but it does not remove the application's responsibility to model its customers and prevent cross-tenant data access.
+
+> **Identity provider:** "Who is this user?"
+>
+> **SaaS authorization model:** "Which customer data and actions may this user access?"
+
 ---
 
 ## 8. Passkeys in Entra External ID
@@ -312,6 +357,8 @@ Microsoft currently requires the customer to begin with an **email + password or
 Only those local password accounts can currently register passkeys; email one-time-passcode, federated, and social identity users cannot yet do so.
 
 The application also needs to provide a credential-management experience so customers can register, view, and delete their passkeys.
+
+Microsoft does not currently provide an out-of-box passkey registration experience for External ID external tenants. The application must build that experience with the FIDO2 provisioning APIs. Microsoft also notes that low-privilege credential-management APIs for this scenario are not yet available and are on the roadmap.
 
 The distinction is important:
 
@@ -350,6 +397,20 @@ Azure Key Vault
 ```
 
 This should be the preferred pattern whenever the destination supports Microsoft Entra authentication.
+
+Azure Database for PostgreSQL Flexible Server can also use Microsoft Entra authentication. Where the application's language, driver, and connection-pooling approach support token authentication cleanly, the App Service managed identity can authenticate to PostgreSQL without a long-lived database password.
+
+That makes the preferred v1 Azure pattern:
+
+```text
+App Service managed identity
+        │
+        ├── PostgreSQL Flexible Server
+        ├── Blob Storage
+        └── Key Vault
+```
+
+This does not mean Key Vault is unnecessary. Key Vault still stores secrets that cannot be replaced by workload identity, such as many third-party API keys and payment-provider credentials.
 
 The principle is:
 
@@ -575,6 +636,30 @@ Start with the minimum secure internet-facing architecture that meets the applic
 
 Add private networking when the threat model, compliance requirements, organizational policies, or sensitive service boundaries justify it.
 
+### Start with a custom domain and HTTPS
+
+A small production SaaS normally needs a custom hostname such as `app.example.com`, but it does not need Azure Front Door just to get one.
+
+App Service can map a custom domain and use an **App Service managed certificate** for HTTPS. The managed certificate is free and automatically renewed. The DNS zone can remain with an external provider such as Cloudflare or the domain registrar; using Azure DNS is optional.
+
+One practical cost detail matters: Microsoft's current App Service guidance requires the **Basic tier or higher** to use the App Service managed certificate path. That can create part of the minimum monthly cost floor even for a very small production application.
+
+So the basic path is:
+
+```text
+customer
+   │
+   ▼
+app.example.com
+   │ DNS
+   ▼
+Azure App Service
+   │
+   └── App Service managed TLS certificate
+```
+
+Add Front Door later when the application actually needs edge routing, WAF, multi-region routing, or similar capabilities.
+
 ### Azure Front Door
 
 Add **Azure Front Door Standard or Premium** when the product needs capabilities such as:
@@ -752,6 +837,7 @@ Serverless products can scale very cheaply when idle, while provisioned database
 For the reference architecture, evaluate at least these categories:
 
 - App Service plan
+- the App Service tier required for the chosen custom-domain/TLS setup;
 - PostgreSQL compute
 - PostgreSQL storage and backups
 - Blob Storage
@@ -1019,11 +1105,23 @@ Use primary documentation and re-check time-sensitive capabilities before public
 
 - [GitHub Copilot for Azure](https://github.com/microsoft/GitHub-Copilot-for-Azure)
 - [Azure Agent Skills](https://github.com/MicrosoftDocs/Agent-Skills)
+- [Azure Agent Skills on Microsoft Learn](https://learn.microsoft.com/en-us/training/support/agent-skills)
+- [What is Azure Skills?](https://learn.microsoft.com/en-us/azure/developer/azure-skills/overview)
+- [GitHub Copilot for Azure overview](https://learn.microsoft.com/azure/developer/github-copilot-azure/introduction)
 - [Azure Developer CLI](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/overview)
 - [Compare Azure Container Apps with other Azure container options](https://learn.microsoft.com/en-us/azure/container-apps/compare-options)
 - [Microsoft Entra External ID customer overview](https://learn.microsoft.com/en-us/entra/external-id/customers/overview-customers-ciam)
 - [Sign in with passkeys in Microsoft Entra External ID](https://learn.microsoft.com/en-us/entra/external-id/customers/how-to-sign-in-with-passkey)
+- [Multitenancy overview](https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/overview)
+- [Identity approaches for multitenant solutions](https://learn.microsoft.com/en-us/azure/architecture/guide/multitenant/approaches/identity)
+- [Identity and access management for SaaS](https://learn.microsoft.com/en-us/azure/well-architected/saas/identity-access)
 - [Managed identities for Azure resources](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview-for-developers)
+- [Connect from App Service to Azure databases with managed identity](https://learn.microsoft.com/en-us/azure/app-service/tutorial-connect-msi-azure-database)
+- [Connect to PostgreSQL Flexible Server with managed identity](https://learn.microsoft.com/en-us/azure/postgresql/security/security-connect-with-managed-identity)
+- [Configure Microsoft Entra authentication for PostgreSQL Flexible Server](https://learn.microsoft.com/en-us/azure/postgresql/security/security-entra-configure)
 - [Azure Database for PostgreSQL Flexible Server backup and restore](https://learn.microsoft.com/en-us/azure/postgresql/backup-restore/concepts-backup-restore)
+- [Configure a custom domain for App Service](https://learn.microsoft.com/en-us/azure/app-service/app-service-web-tutorial-custom-domain)
+- [Secure an App Service custom domain with a managed certificate](https://learn.microsoft.com/en-us/azure/app-service/tutorial-secure-domain-certificate)
+- [TLS in Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/overview-tls)
 - [Azure Front Door overview](https://learn.microsoft.com/en-us/azure/frontdoor/front-door-overview)
 - [What is Microsoft Foundry?](https://learn.microsoft.com/en-us/azure/foundry/what-is-foundry)

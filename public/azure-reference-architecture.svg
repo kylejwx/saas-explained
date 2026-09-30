@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="930" viewBox="0 0 1400 930" role="img" aria-labelledby="title description">
   <title id="title">Azure v1 SaaS reference architecture</title>
-  <desc id="description">A customer browser connects to Microsoft Entra External ID and an Azure App Service web application. App Service uses PostgreSQL, Blob Storage, Key Vault through managed identity, and Application Insights with Azure Monitor. GitHub, a coding agent, Azure Agent Skills and MCP, plus azd, Bicep, and GitHub Actions form the development and deployment path.</desc>
+  <desc id="description">A customer signs in with Microsoft Entra External ID and uses an Azure App Service application over a custom domain with HTTPS. The App Service owns SaaS tenant authorization, uses a managed identity to access PostgreSQL, Blob Storage, and Key Vault, and sends telemetry to Application Insights and Azure Monitor. The development path separates the GitHub repository and coding agent from Azure Agent Skills for documentation knowledge, Azure Skills and Azure MCP Server for operational workflows and tools, and azd, Bicep, and GitHub Actions for provisioning and deployment.</desc>
   <style>
     :root { color-scheme: light dark; }
     .canvas { fill: #f8fafc; }
@@ -9,10 +9,15 @@
     .azure { fill: #e0f2fe; stroke: #0284c7; stroke-width: 2; }
     .identity { fill: #f3e8ff; stroke: #9333ea; stroke-width: 2; }
     .tooling { fill: #ecfdf5; stroke: #059669; stroke-width: 2; }
+    .app-responsibility { fill: #fff7ed; stroke: #ea580c; stroke-width: 2; }
+    .badge { fill: #ede9fe; stroke: #7c3aed; stroke-width: 1.5; }
     .label { fill: #0f172a; font: 600 18px system-ui, sans-serif; text-anchor: middle; }
     .small { fill: #334155; font: 14px system-ui, sans-serif; text-anchor: middle; }
-    .group-label { fill: #1e3a8a; font: 700 16px system-ui, sans-serif; }
+    .tiny { fill: #475569; font: 12px system-ui, sans-serif; text-anchor: middle; }
+    .group-label { fill: #1e3a8a; font: 700 17px system-ui, sans-serif; }
+    .edge-label { fill: #334155; font: 13px system-ui, sans-serif; text-anchor: middle; }
     .arrow { fill: none; stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); }
+    .mi-arrow { fill: none; stroke: #7c3aed; stroke-width: 2.5; marker-end: url(#arrow-mi); }
     .dashed { stroke-dasharray: 7 6; }
     @media (prefers-color-scheme: dark) {
       .canvas { fill: #0f172a; }
@@ -21,61 +26,51 @@
       .azure { fill: #0c4a6e; stroke: #38bdf8; }
       .identity { fill: #3b0764; stroke: #c084fc; }
       .tooling { fill: #064e3b; stroke: #34d399; }
+      .app-responsibility { fill: #431407; stroke: #fb923c; }
+      .badge { fill: #2e1065; stroke: #c084fc; }
       .label { fill: #f8fafc; }
       .small { fill: #cbd5e1; }
+      .tiny { fill: #cbd5e1; }
       .group-label { fill: #bfdbfe; }
+      .edge-label { fill: #cbd5e1; }
       .arrow { stroke: #94a3b8; }
+      .mi-arrow { stroke: #c084fc; }
+      .marker { fill: #94a3b8; }
+      .marker-mi { fill: #c084fc; }
     }
   </style>
   <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path class="marker" d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker>
+    <marker id="arrow-mi" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path class="marker-mi" d="M0,0 L0,6 L9,3 z" fill="#7c3aed"/></marker>
   </defs>
-  <rect class="canvas" width="1200" height="760" rx="20"/>
-  <rect class="group" x="36" y="42" width="1128" height="248" rx="16"/>
-  <text class="group-label" x="62" y="72">Production Azure stack</text>
-  <rect class="node" x="76" y="112" width="185" height="78" rx="12"/>
-  <text class="label" x="168" y="145">Customer browser</text>
-  <text class="small" x="168" y="169">uses the SaaS</text>
-  <rect class="identity" x="324" y="112" width="210" height="78" rx="12"/>
-  <text class="label" x="429" y="145">Entra External ID</text>
-  <text class="small" x="429" y="169">customer identity</text>
-  <rect class="azure" x="610" y="104" width="230" height="94" rx="12"/>
-  <text class="label" x="725" y="142">Azure App Service</text>
-  <text class="small" x="725" y="168">web application + API</text>
-  <rect class="azure" x="914" y="88" width="196" height="58" rx="12"/>
-  <text class="label" x="1012" y="122">PostgreSQL</text>
-  <rect class="azure" x="914" y="158" width="196" height="58" rx="12"/>
-  <text class="label" x="1012" y="192">Blob Storage</text>
-  <rect class="azure" x="610" y="222" width="230" height="46" rx="12"/>
-  <text class="label" x="725" y="252">Application Insights + Monitor</text>
-  <rect class="identity" x="324" y="222" width="210" height="46" rx="12"/>
-  <text class="label" x="429" y="252">Managed identity + Key Vault</text>
-  <path class="arrow" d="M261 151 H324"/>
-  <path class="arrow" d="M261 151 H610"/>
-  <path class="arrow" d="M534 151 H610"/>
-  <path class="arrow" d="M840 132 H914"/>
-  <path class="arrow" d="M840 170 H914"/>
-  <path class="arrow" d="M725 198 V222"/>
-  <path class="arrow" d="M534 245 H610"/>
-  <rect class="group" x="36" y="330" width="1128" height="384" rx="16"/>
-  <text class="group-label" x="62" y="360">Development and deployment path</text>
-  <rect class="tooling" x="78" y="406" width="180" height="76" rx="12"/>
-  <text class="label" x="168" y="438">GitHub repository</text>
-  <text class="small" x="168" y="461">source of truth</text>
-  <rect class="tooling" x="328" y="394" width="230" height="100" rx="12"/>
-  <text class="label" x="443" y="426">Coding agent</text>
-  <text class="small" x="443" y="451">Copilot, Claude, Codex,</text>
-  <text class="small" x="443" y="471">Cursor, or another choice</text>
-  <rect class="tooling" x="628" y="394" width="230" height="100" rx="12"/>
-  <text class="label" x="743" y="426">Azure Agent Skills</text>
-  <text class="small" x="743" y="451">and Azure MCP Server</text>
-  <rect class="tooling" x="928" y="394" width="186" height="100" rx="12"/>
-  <text class="label" x="1021" y="426">Deployment</text>
-  <text class="small" x="1021" y="451">azd + Bicep</text>
-  <text class="small" x="1021" y="471">+ GitHub Actions</text>
-  <path class="arrow" d="M258 444 H328"/>
-  <path class="arrow" d="M558 444 H628"/>
-  <path class="arrow" d="M858 444 H928"/>
-  <path class="arrow dashed" d="M1021 494 V590 H725 V290"/>
-  <text class="small" x="875" y="577">provisions and deploys</text>
+  <rect class="canvas" width="1400" height="930" rx="20"/>
+  <rect class="group" x="30" y="30" width="1340" height="520" rx="18"/>
+  <text class="group-label" x="58" y="64">Production Azure stack</text>
+  <rect class="node" x="70" y="120" width="200" height="90" rx="12"/>
+  <text class="label" x="170" y="156">Customer browser</text><text class="small" x="170" y="181">uses the SaaS</text>
+  <rect class="identity" x="350" y="75" width="270" height="100" rx="12"/>
+  <text class="label" x="485" y="113">Entra External ID</text><text class="small" x="485" y="139">customer authentication</text><text class="tiny" x="485" y="159">sign-in, MFA, passkeys</text>
+  <rect class="azure" x="705" y="105" width="310" height="140" rx="12"/>
+  <text class="label" x="860" y="142">Azure App Service</text><text class="small" x="860" y="168">web application + API</text>
+  <rect class="badge" x="775" y="187" width="170" height="38" rx="18"/><text class="small" x="860" y="211">Managed identity</text>
+  <rect class="azure" x="1090" y="70" width="250" height="90" rx="12"/><text class="label" x="1215" y="106">PostgreSQL</text><text class="small" x="1215" y="132">Flexible Server</text>
+  <rect class="azure" x="1090" y="185" width="250" height="90" rx="12"/><text class="label" x="1215" y="221">Blob Storage</text><text class="small" x="1215" y="247">files + objects</text>
+  <rect class="azure" x="1090" y="300" width="250" height="90" rx="12"/><text class="label" x="1215" y="336">Key Vault</text><text class="small" x="1215" y="362">remaining secrets</text>
+  <rect class="azure" x="705" y="385" width="310" height="90" rx="12"/><text class="label" x="860" y="420">Application Insights</text><text class="small" x="860" y="446">+ Azure Monitor</text>
+  <rect class="app-responsibility" x="350" y="315" width="270" height="145" rx="12"/><text class="label" x="485" y="347">SaaS authorization</text><text class="small" x="485" y="374">organization / tenant</text><text class="small" x="485" y="397">membership + roles</text><text class="small" x="485" y="420">tenant-scoped data access</text><text class="tiny" x="485" y="442">application responsibility</text>
+  <path class="arrow" d="M270 145 H350"/><text class="edge-label" x="310" y="134">sign in</text>
+  <path class="arrow" d="M620 125 H705"/><text class="edge-label" x="662" y="114">identity token</text>
+  <path class="arrow" d="M170 210 V270 H860 V245"/><text class="edge-label" x="505" y="260">app traffic: custom domain + HTTPS</text>
+  <path class="arrow dashed" d="M620 385 H665 V300 H820 V245"/><text class="edge-label" x="690" y="321">enforced in app</text>
+  <path class="mi-arrow" d="M1015 142 H1050 V115 H1090"/><path class="mi-arrow" d="M1015 175 H1050 V230 H1090"/><path class="mi-arrow" d="M1015 208 H1050 V345 H1090"/><text class="edge-label" x="1064" y="291">managed identity</text>
+  <path class="arrow" d="M860 245 V385"/><text class="edge-label" x="918" y="319">telemetry</text>
+  <rect class="group" x="30" y="585" width="1340" height="315" rx="18"/><text class="group-label" x="58" y="620">Development and deployment path</text>
+  <rect class="tooling" x="70" y="695" width="210" height="90" rx="12"/><text class="label" x="175" y="731">GitHub repository</text><text class="small" x="175" y="757">source of truth</text>
+  <rect class="tooling" x="350" y="680" width="245" height="120" rx="12"/><text class="label" x="472" y="714">Coding agent</text><text class="small" x="472" y="741">Copilot / Claude / Codex</text><text class="small" x="472" y="763">Cursor / Gemini / OpenCode</text><text class="tiny" x="472" y="785">developer's choice</text>
+  <rect class="tooling" x="665" y="625" width="285" height="105" rx="12"/><text class="label" x="807" y="660">Azure Agent Skills</text><text class="small" x="807" y="686">Microsoft Learn knowledge</text><text class="tiny" x="807" y="708">optionally via Learn MCP</text>
+  <rect class="tooling" x="665" y="760" width="285" height="105" rx="12"/><text class="label" x="807" y="795">Azure Skills + MCP</text><text class="small" x="807" y="821">Azure workflows + tools</text><text class="tiny" x="807" y="843">prepare / validate / deploy / operate</text>
+  <rect class="tooling" x="1030" y="690" width="285" height="110" rx="12"/><text class="label" x="1172" y="724">Deployment path</text><text class="small" x="1172" y="750">azd + Bicep</text><text class="small" x="1172" y="773">+ GitHub Actions</text>
+  <path class="arrow" d="M280 740 H350"/><text class="edge-label" x="315" y="729">reads / writes</text>
+  <path class="arrow" d="M595 716 H630 V678 H665"/><path class="arrow" d="M595 764 H630 V812 H665"/>  <path class="arrow" d="M595 740 H1030"/>
+  <path class="arrow dashed" d="M1172 690 V570 H1240 V550"/><text class="edge-label" x="1140" y="565">provisions + deploys Azure resources</text>
 </svg>
