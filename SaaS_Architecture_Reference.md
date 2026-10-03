@@ -429,7 +429,7 @@ Filters known malicious traffic patterns before they reach your app. A WAF is de
 
 User count alone does not select an architecture. A thousand users running compute-heavy analytics may need more infrastructure than a million readers of a cacheable page. Base scaling decisions on workload shape, availability objectives, deployment count, data topology, regulation, team expertise, and measured cost.
 
-> **Provider example:** See [Build a SaaS on Microsoft Azure](/azure) for one concrete small-SaaS mapping to App Service, PostgreSQL, Blob Storage, Key Vault, infrastructure as code, and Azure monitoring.
+> **Provider examples:** See [Build a SaaS on Microsoft Azure](/azure) and [Build a SaaS on Google Cloud](/google-cloud) for concrete small-SaaS mappings of compute, PostgreSQL, storage, secrets, infrastructure as code, and monitoring.
 
 ---
 

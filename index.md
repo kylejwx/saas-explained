@@ -37,6 +37,12 @@ The [Microsoft Azure guide](/azure) takes the provider-neutral architecture conc
 
 It separates the AI coding tool from the production platform, then walks through App Service, PostgreSQL, Entra External ID, managed identities, Blob Storage, Key Vault, infrastructure as code, deployment, monitoring, and a path for adding more Azure services only when the application actually needs them.
 
+## Build the stack on Google Cloud
+
+The [Google Cloud guide](/google-cloud) maps the provider-neutral architecture concepts onto a practical Google stack for a small SaaS.
+
+It explains how Firebase and Google Cloud fit together, then walks through Firebase Hosting and App Hosting, Cloud Run, PostgreSQL on Cloud SQL, customer identity, storage, secrets, deployment options, Google AI Studio, and a deliberate path from a small application to more advanced Google Cloud infrastructure only when real usage requires it.
+
 ## See an all-in-one platform in context
 
 The [Replit all-in-one case study](/replit-case-study) maps a browser-based AI development platform to the responsibilities of a small SaaS. It explains what Replit can combine, what still needs deliberate product and operational ownership, and when the tradeoffs fit.

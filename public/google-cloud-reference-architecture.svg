@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1770" viewBox="0 0 640 1770" role="img" aria-labelledby="title description">
+  <title id="title">Google Cloud v1 SaaS reference architecture</title>
+  <desc id="description">A customer reaches a Firebase-hosted web application over HTTPS. Firebase Hosting delivers static or SPA assets through a global CDN; App Hosting manages supported full-stack delivery and its Cloud Run backend. Firebase Authentication or Identity Platform provides customer identity. Cloud Run runs application, API, or worker code, accesses Cloud Storage and Secret Manager, and connects to Cloud SQL for PostgreSQL through a small application connection pool. Bound autoscaling and start small; monitor database connections. Cloud Logging and Cloud Monitoring receive telemetry. Separately, a coding tool such as Codex, Claude, Gemini, or an IDE creates source in GitHub. Choose one deployment path: Firebase App Hosting managed deployment, Cloud Build, or GitHub Actions with Workload Identity Federation and OIDC. These are alternatives that deploy the Google Cloud application.</desc>
+  <style>
+    :root { color-scheme: light dark; }
+    .canvas { fill: #f8fafc; }
+    .group { fill: #eff6ff; stroke: #60a5fa; stroke-width: 2; }
+    .node { fill: #fff; stroke: #2563eb; stroke-width: 2; }
+    .cloud { fill: #e0f2fe; stroke: #0284c7; stroke-width: 2; }
+    .identity { fill: #f3e8ff; stroke: #9333ea; stroke-width: 2; }
+    .tooling { fill: #ecfdf5; stroke: #059669; stroke-width: 2; }
+    .badge { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.5; }
+    .label { fill: #0f172a; font: 600 24px system-ui, sans-serif; text-anchor: middle; }
+    .small { fill: #334155; font: 22px system-ui, sans-serif; text-anchor: middle; }
+    .note { fill: #475569; font: 20px system-ui, sans-serif; text-anchor: middle; }
+    .group-label { fill: #1e3a8a; font: 700 24px system-ui, sans-serif; }
+    .arrow { fill: none; stroke: #475569; stroke-width: 2.5; marker-end: url(#arrow); }
+    .identity-arrow { fill: none; stroke: #9333ea; stroke-width: 2.5; marker-end: url(#identity-arrow); }
+    .dashed { stroke-dasharray: 7 6; }
+    @media (prefers-color-scheme: dark) {
+      .canvas { fill: #0f172a; }
+      .group { fill: #172554; stroke: #60a5fa; }
+      .node { fill: #1e293b; stroke: #60a5fa; }
+      .cloud { fill: #0c4a6e; stroke: #38bdf8; }
+      .identity { fill: #3b0764; stroke: #c084fc; }
+      .tooling { fill: #064e3b; stroke: #34d399; }
+      .badge { fill: #431407; stroke: #fb923c; }
+      .label { fill: #f8fafc; }
+      .small, .note { fill: #cbd5e1; }
+      .group-label { fill: #bfdbfe; }
+      .arrow { stroke: #94a3b8; }
+      .identity-arrow { stroke: #c084fc; }
+      .marker { fill: #94a3b8; }
+      .identity-marker { fill: #c084fc; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path class="marker" d="M0,0 L0,6 L9,3 z" fill="#475569"/></marker>
+    <marker id="identity-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path class="identity-marker" d="M0,0 L0,6 L9,3 z" fill="#9333ea"/></marker>
+  </defs>
+  <rect class="canvas" width="640" height="1770" rx="20"/>
+  <rect class="group" x="15" y="20" width="610" height="1050" rx="18"/>
+  <text class="group-label" x="35" y="59">Production Google Cloud stack</text>
+
+  <rect class="node" x="350" y="95" width="260" height="80" rx="12"/>
+  <text class="label" x="480" y="129">Customer / Browser</text>
+  <text class="small" x="480" y="155">uses the SaaS</text>
+  <path class="arrow" d="M480 175 V225"/>
+  <text class="note" x="540" y="207">HTTPS</text>
+
+  <rect class="cloud" x="320" y="225" width="290" height="150" rx="12"/>
+  <text class="label" x="465" y="258">Firebase Hosting</text>
+  <text class="label" x="465" y="287">or App Hosting</text>
+  <text class="small" x="465" y="317">CDN + web delivery</text>
+  <path class="arrow" d="M465 375 V415"/>
+  <text class="note" x="465" y="345">App Hosting manages runtime</text>
+
+  <rect class="cloud" x="320" y="415" width="290" height="140" rx="12"/>
+  <text class="label" x="465" y="450">Cloud Run</text>
+  <text class="small" x="465" y="480">application / API / worker</text>
+  <rect class="badge" x="332" y="495" width="266" height="44" rx="18"/>
+  <text class="note" x="465" y="523">Bound autoscaling; start small</text>
+
+  <rect class="identity" x="30" y="410" width="245" height="145" rx="12"/>
+  <text class="small" x="152" y="443">Firebase Authentication</text>
+  <text class="small" x="152" y="474">/ Identity Platform</text>
+  <text class="note" x="152" y="505">customer identity</text>
+  <text class="note" x="152" y="534">app verifies identity token</text>
+  <path class="identity-arrow" d="M350 135 H152 V410"/>
+  <text class="note" x="208" y="193">sign in</text>
+  <path class="identity-arrow dashed" d="M275 480 H320"/>
+
+  <path class="arrow" d="M465 555 V585 H160 V615"/>
+  <path class="arrow" d="M465 585 V615"/>
+  <rect class="cloud" x="30" y="615" width="260" height="100" rx="12"/>
+  <text class="label" x="160" y="655">Cloud Storage</text>
+  <text class="small" x="160" y="686">files + objects</text>
+  <rect class="cloud" x="350" y="615" width="260" height="100" rx="12"/>
+  <text class="label" x="480" y="655">Secret Manager</text>
+  <text class="small" x="480" y="686">remaining secrets</text>
+
+  <path class="arrow" d="M320 530 H310 V735 H335 V750"/>
+  <rect class="badge" x="170" y="750" width="330" height="46" rx="18"/>
+  <text class="small" x="335" y="780">Application connection pool</text>
+  <path class="arrow" d="M335 796 V820"/>
+  <rect class="cloud" x="170" y="820" width="330" height="100" rx="12"/>
+  <text class="label" x="335" y="856">Cloud SQL for PostgreSQL</text>
+  <text class="small" x="335" y="887">small pool; monitor connections</text>
+
+  <path class="arrow dashed" d="M610 470 H619 V992 H570"/>
+  <text class="note" x="530" y="956">telemetry</text>
+  <rect class="cloud" x="70" y="967" width="500" height="80" rx="12"/>
+  <text class="label" x="320" y="1001">Cloud Logging / Cloud Monitoring</text>
+  <text class="small" x="320" y="1031">logs, metrics, dashboards + alerts</text>
+
+  <rect class="group" x="15" y="1100" width="610" height="645" rx="18"/>
+  <text class="group-label" x="35" y="1139">Development and deployment path</text>
+  <rect class="tooling" x="110" y="1170" width="420" height="80" rx="12"/>
+  <text class="label" x="320" y="1204">Coding tool</text>
+  <text class="small" x="320" y="1234">Codex / Claude / Gemini / IDE</text>
+  <path class="arrow" d="M320 1250 V1285"/>
+  <rect class="tooling" x="110" y="1285" width="420" height="115" rx="12"/>
+  <text class="label" x="320" y="1319">GitHub</text>
+  <text class="small" x="320" y="1349">source of truth</text>
+  <text class="small" x="320" y="1380">Deployment alternatives: choose one</text>
+  <path class="arrow" d="M320 1400 V1413 H121 V1430"/>
+  <path class="arrow" d="M320 1413 V1430"/>
+  <path class="arrow" d="M320 1413 H519 V1430"/>
+  <rect class="tooling" x="30" y="1430" width="182" height="140" rx="12"/>
+  <text class="small" x="121" y="1463">Firebase</text>
+  <text class="small" x="121" y="1492">App Hosting</text>
+  <text class="note" x="121" y="1523">managed</text>
+  <text class="note" x="121" y="1551">deployment</text>
+  <rect class="tooling" x="229" y="1430" width="182" height="140" rx="12"/>
+  <text class="label" x="320" y="1484">Cloud Build</text>
+  <text class="small" x="320" y="1516">Google CI/CD</text>
+  <rect class="tooling" x="428" y="1430" width="182" height="140" rx="12"/>
+  <text class="small" x="519" y="1463">GitHub Actions</text>
+  <text class="note" x="519" y="1492">+ Workload</text>
+  <text class="note" x="519" y="1521">Identity Federation</text>
+  <text class="note" x="519" y="1551">OIDC; no static keys</text>
+  <path class="arrow" d="M121 1570 V1595 H320 V1630"/>
+  <path class="arrow" d="M320 1570 V1595"/>
+  <path class="arrow" d="M519 1570 V1595 H320"/>
+  <rect class="cloud" x="70" y="1630" width="500" height="90" rx="12"/>
+  <text class="label" x="320" y="1666">Deployed Google Cloud application</text>
+  <text class="small" x="320" y="1698">the production stack above</text>
+</svg>

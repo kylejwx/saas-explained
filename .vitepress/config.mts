@@ -20,6 +20,7 @@ export default defineConfig({
       { text: 'Start here', link: '/' },
       { text: 'Architecture reference', link: '/architecture' },
       { text: 'Azure', link: '/azure' },
+      { text: 'Google Cloud', link: '/google-cloud' },
       { text: 'Replit case study', link: '/replit-case-study' },
       { text: 'Roadmap', link: '/roadmap' },
       { text: 'Changes & editions', link: '/versions' }
@@ -31,6 +32,7 @@ export default defineConfig({
           { text: 'Start here', link: '/' },
           { text: 'Architecture reference', link: '/architecture' },
           { text: 'Build on Azure', link: '/azure' },
+          { text: 'Build on Google Cloud', link: '/google-cloud' },
           { text: 'Replit case study', link: '/replit-case-study' },
           { text: 'Roadmap', link: '/roadmap' },
           { text: 'Changes & editions', link: '/versions' }

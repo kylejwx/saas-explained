@@ -40,7 +40,6 @@ Initial providers to investigate:
 
 - Microsoft Azure
 - Amazon Web Services (AWS)
-- Google Cloud
 - Oracle Cloud, if its offering adds a useful contrast
 - Other major providers when they offer a credible vertically integrated stack
 
@@ -72,6 +71,8 @@ Each provider guide could include:
 ### Azure reference stack
 
 The first provider-specific module is now the [Microsoft Azure guide](/azure). It defines an opinionated small-SaaS reference architecture while keeping the developer's AI coding agent separate from the hosting platform.
+
+The [Google Cloud guide](/google-cloud) now provides a parallel small-SaaS mapping with Firebase web delivery, Cloud Run, and deliberately bounded database connections.
 
 Future work should validate the documented architecture with a shared reference application, then implement equivalent versions on other platforms so readers can compare the same workload rather than unrelated demos.
 
