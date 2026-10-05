@@ -1,3 +1,7 @@
+### 2026-10-05
+
+- **AI readability:** Adds an `llms.txt` index and automatic "View Markdown" links on content pages and the homepage. Existing Markdown files remain the single source of truth and are served through raw GitHub URLs without Markdown mirrors.
+
 ### 2026-08-05
 
 - **SaaS definition:** Defines SaaS by vendor-operated service delivery rather than zero installation, so native and desktop clients are not mistaken for a different architecture.

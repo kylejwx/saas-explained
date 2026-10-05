@@ -1,0 +1,31 @@
+# SaaS Explained
+
+> A practical, plain-English guide to SaaS architecture for builders who want sound foundations from day one.
+
+The site explains core SaaS systems, architectural tradeoffs, provider-specific stacks, and platform case studies. Published site: https://kylejwx.github.io/saas-explained/
+
+The repository's Markdown files are the single source of truth. The links below point directly to raw GitHub Markdown on main; no Markdown mirrors are maintained. Version labels identify formal guide editions, while main contains the current working guidance. The changes and editions page includes CHANGELOG.md when rendered, so read both source files for its complete content.
+
+## Start here
+
+- [Homepage](https://raw.githubusercontent.com/kylejwx/saas-explained/main/index.md): Overview and reading paths.
+- [SaaS Architecture Reference](https://raw.githubusercontent.com/kylejwx/saas-explained/main/SaaS_Architecture_Reference.md): Core SaaS building blocks, tradeoffs, and recommended foundations.
+
+## Provider guides and case studies
+
+- [Build on Microsoft Azure](https://raw.githubusercontent.com/kylejwx/saas-explained/main/azure.md): A practical Azure stack for a small SaaS.
+- [Build on Google Cloud](https://raw.githubusercontent.com/kylejwx/saas-explained/main/google-cloud.md): Firebase and Google Cloud services for a small SaaS.
+- [Replit all-in-one case study](https://raw.githubusercontent.com/kylejwx/saas-explained/main/Replit_All_in_One_Case_Study.md): Platform capabilities, responsibilities, and tradeoffs.
+
+## Roadmap and history
+
+- [Site Expansion Roadmap](https://raw.githubusercontent.com/kylejwx/saas-explained/main/ROADMAP_IDEAS.md): Proposed guides and learning tools; an idea bank rather than a fixed plan.
+- [Changes and editions](https://raw.githubusercontent.com/kylejwx/saas-explained/main/versions.md): Edition archive and release links.
+- [Changelog](https://raw.githubusercontent.com/kylejwx/saas-explained/main/CHANGELOG.md): Changes included in the rendered changes and editions page.
+- [Frozen Version 1.1](https://raw.githubusercontent.com/kylejwx/saas-explained/main/editions/v1.1.md): Archived guide edition.
+- [Frozen Version 1.0](https://raw.githubusercontent.com/kylejwx/saas-explained/main/editions/v1.0.md): Archived baseline edition.
+
+## Optional
+
+- [Project README](https://raw.githubusercontent.com/kylejwx/saas-explained/main/README.md): Repository overview.
+- [Content Maintenance](https://raw.githubusercontent.com/kylejwx/saas-explained/main/CONTENT_MAINTENANCE.md): Guide history and edition policy.
